@@ -69,7 +69,7 @@ export default function CalendarScreen() {
         <Text style={styles.noEvent}>Select a date to see events.</Text>
       )}
 
-       {/* Modal for Adding Events */} //Button is not showing, will come back to fix this feature.
+       {/* Modal for Adding Events */} 
       <Modal
         animationType="slide"
         transparent={true}
@@ -80,7 +80,7 @@ export default function CalendarScreen() {
           <View style={styles.modalBox}>
             <Text style={styles.modalTitle}>Add Event</Text>
             <TextInput
-              placeholder="Enter event (e.g., Training, Exam)"
+              placeholder="Enter event (e.g., Training, Exam)" //Button is not showing, will come back to fix this feature.
               placeholderTextColor="#4d8ac7ff"
               value={newEvent}
               onChangeText={setNewEvent}
