@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Modal,
@@ -32,6 +33,33 @@ export default function CalendarScreen() {
       setModalVisible(false);
     }
   };
+
+  // Loads events when the app starts
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const storedEvents = await AsyncStorage.getItem("events");
+        if (storedEvents) {
+          setEvents(JSON.parse(storedEvents));
+        }
+      } catch (error) {
+        console.error("Error loading events", error);
+      }
+    };
+    loadEvents();
+  }, []);
+
+  //Saves events whenever they change
+  useEffect(() => {
+    const saveEvents = async () => {
+      try {
+        await AsyncStorage.setItem("events", JSON.stringify(events));
+      } catch (error) {
+        console.error("Error saving events", error);
+      }
+    };
+    saveEvents();
+  }, [events]);
 
   return (
     <View style={styles.container}>
