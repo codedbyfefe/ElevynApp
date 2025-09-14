@@ -2,13 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    Alert,
-    Button,
-    Modal,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  FlatList,
+  Modal,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import styles from "../styles/calendarstyles";
@@ -108,19 +108,18 @@ export default function CalendarScreen() {
     ]);
   };
 
-  return (
+   return (
     <View style={styles.container}>
       <Text style={styles.header}>📅 Training & Academic Planner</Text>
 
       <Calendar
         onDayPress={(day) => setSelectedDate(day.dateString)}
         markedDates={{
-          ...events,
           [selectedDate]: {
             selected: true,
             selectedColor: "#1D2D44",
-            marked: events[selectedDate]?.marked || false,
-            dotColor: events[selectedDate]?.dotColor || "#A6E1FA",
+            dotColor: "#A6E1FA",
+            marked: !!events[selectedDate]?.length,
           },
         }}
         theme={{
@@ -137,14 +136,51 @@ export default function CalendarScreen() {
       {selectedDate ? (
         <View style={styles.eventBox}>
           <Text style={styles.eventTitle}>Events on {selectedDate}:</Text>
-          <Text style={styles.eventText}>- Training Session</Text>
-          <Text style={styles.eventText}>- Study Group</Text>
+
+          {events[selectedDate]?.length ? (
+            <FlatList
+              data={events[selectedDate]}
+              keyExtractor={(item, index) => `${selectedDate}-${index}`}
+              renderItem={({ item, index }) => (
+                <View style={styles.eventRow}>
+                  <Text style={styles.eventText}>• {item}</Text>
+                  <View style={styles.eventActions}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setNewEvent(item);
+                        setEditingIndex(index);
+                        setModalVisible(true);
+                      }}
+                    >
+                      <Text style={styles.editText}>✏️ Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleDeleteEvent(index)}>
+                      <Text style={styles.deleteText}>🗑 Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            />
+          ) : (
+            <Text style={styles.noEvent}>No events yet for this date.</Text>
+          )}
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => {
+              setNewEvent("");
+              setEditingIndex(null);
+              setModalVisible(true);
+            }}
+          >
+            <Text style={styles.addButtonText}>+ Add Event</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <Text style={styles.noEvent}>Select a date to see events.</Text>
       )}
 
-       {/* Modal for Adding Events */} 
+      {/* Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -153,23 +189,41 @@ export default function CalendarScreen() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Add Event</Text>
+            <Text style={styles.modalTitle}>
+              {editingIndex !== null ? "Edit Event" : "Add Event"}
+            </Text>
             <TextInput
-              placeholder="Enter event (e.g., Training, Exam)" //Button is not showing, will come back to fix this feature.
-              placeholderTextColor="#4d8ac7ff"
+              placeholder="Enter event (e.g., Training, Exam)"
+              placeholderTextColor="#999"
               value={newEvent}
               onChangeText={setNewEvent}
               style={styles.input}
             />
-            <Button title="Add" onPress={handleAddEvent} />
-            <Button
-              title="Cancel"
-              color="red"
-              onPress={() => setModalVisible(false)}
-            />
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.addEventButton}
+                onPress={handleSaveEvent}
+              >
+                <Text style={styles.addEventButtonText}>
+                  {editingIndex !== null ? "Save" : "Add"}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  setNewEvent("");
+                  setEditingIndex(null);
+                }}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </Modal> 
+      </Modal>
 
       {/* Bottom Nav */}
       <View style={styles.navbar}>
