@@ -2,211 +2,170 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
   FlatList,
   Modal,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import styles from "../styles/calendarstyles";
 
-export default function CalendarScreen() {
+interface Event {
+  title: string;
+  description: string;
+  date: string;
+}
+
+const CalendarScreen = () => {
+  const [events, setEvents] = useState<Event[]>([
+    { title: "Training", description: "Morning gym session", date: "2025-09-14" },
+    { title: "Lecture", description: "Data Structures class", date: "2025-09-15" },
+  ]);
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState("");
-  const [events, setEvents] = useState<any>({}); 
   const [modalVisible, setModalVisible] = useState(false);
-  const [newEvent, setNewEvent] = useState("");
-    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const handleAddEvent = () => {
-    if (selectedDate && newEvent.trim() !== "") {
-      const updatedEvents = {
-        ...events,
-        [selectedDate]: [
-          ...(events[selectedDate] || []),
-          newEvent.trim(),
-        ],
-      };
-      setEvents(updatedEvents);
-      setNewEvent("");
-      setModalVisible(false);
-    }
-  };
-
-  // Loads events when the app starts
+  // Load saved events
   useEffect(() => {
     const loadEvents = async () => {
       try {
         const storedEvents = await AsyncStorage.getItem("events");
-        if (storedEvents) {
-          setEvents(JSON.parse(storedEvents));
-        }
+        if (storedEvents) setEvents(JSON.parse(storedEvents));
       } catch (error) {
-        console.error("Error loading events", error);
+        console.error("Failed to load events", error);
       }
     };
     loadEvents();
   }, []);
 
-  //Saves events whenever they change
-  useEffect(() => {
-    const saveEvents = async () => {
-      try {
-        await AsyncStorage.setItem("events", JSON.stringify(events));
-      } catch (error) {
-        console.error("Error saving events", error);
-      }
-    };
-    saveEvents();
-  }, [events]);
+  // Save events
+  const saveEvents = async (updatedEvents: Event[]) => {
+    try {
+      await AsyncStorage.setItem("events", JSON.stringify(updatedEvents));
+    } catch (error) {
+      console.error("Failed to save events", error);
+    }
+  };
 
+  // Add or Edit event
+  const handleAddEvent = () => {
+    if (!newTitle || !selectedDate) return;
 
-  // Add or Edit Event
-  const handleSaveEvent = () => {
-    if (!selectedDate || !newEvent.trim()) return;
-
-    const updatedEvents = { ...events };
-
+    let updatedEvents: Event[];
     if (editingIndex !== null) {
-      // Edit existing event
-      updatedEvents[selectedDate][editingIndex] = newEvent.trim();
+      updatedEvents = [...events];
+      updatedEvents[editingIndex] = {
+        ...updatedEvents[editingIndex],
+        title: newTitle,
+        description: newDescription,
+      };
+      setEditingIndex(null);
     } else {
-      // Add new event
-      updatedEvents[selectedDate] = [
-        ...(events[selectedDate] || []),
-        newEvent.trim(),
-      ];
+      updatedEvents = [...events, { title: newTitle, description: newDescription, date: selectedDate }];
     }
 
     setEvents(updatedEvents);
-    setNewEvent("");
-    setEditingIndex(null);
+    saveEvents(updatedEvents);
     setModalVisible(false);
+    setNewTitle("");
+    setNewDescription("");
   };
 
-  // Delete Event
+  // Delete event
   const handleDeleteEvent = (index: number) => {
-    Alert.alert("Delete Event", "Are you sure you want to delete this event?", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: () => {
-          const updatedEvents = { ...events };
-          updatedEvents[selectedDate].splice(index, 1);
-
-          if (updatedEvents[selectedDate].length === 0) {
-            delete updatedEvents[selectedDate];
-          }
-
-          setEvents(updatedEvents);
-        },
-      },
-    ]);
+    const updatedEvents = events.filter((_, i) => i !== index);
+    setEvents(updatedEvents);
+    saveEvents(updatedEvents);
   };
 
-   return (
+  return (
     <View style={styles.container}>
-      <Text style={styles.header}>📅 Training & Academic Planner</Text>
+      <Text style={styles.header}>My Calendar</Text>
 
+      {/* Calendar */}
       <Calendar
         onDayPress={(day) => setSelectedDate(day.dateString)}
         markedDates={{
-          [selectedDate]: {
-            selected: true,
-            selectedColor: "#1D2D44",
-            dotColor: "#A6E1FA",
-            marked: !!events[selectedDate]?.length,
-          },
+          [selectedDate]: { selected: true, selectedColor: "#A6E1FA" },
+          ...events.reduce(
+            (acc, event) => ({
+              ...acc,
+              [event.date]: { marked: true, dotColor: "#A6E1FA" },
+            }),
+            {}
+          ),
         }}
         theme={{
-          backgroundColor: "#111315",
           calendarBackground: "#111315",
-          textSectionTitleColor: "#A7A9AB",
           dayTextColor: "#FFFFFF",
           monthTextColor: "#A6E1FA",
-          selectedDayBackgroundColor: "#1D2D44",
           arrowColor: "#A6E1FA",
         }}
       />
 
-      {selectedDate ? (
-        <View style={styles.eventBox}>
-          <Text style={styles.eventTitle}>Events on {selectedDate}:</Text>
-
-          {events[selectedDate]?.length ? (
-            <FlatList
-              data={events[selectedDate]}
-              keyExtractor={(item, index) => `${selectedDate}-${index}`}
-              renderItem={({ item, index }) => (
-                <View style={styles.eventRow}>
-                  <Text style={styles.eventText}>• {item}</Text>
-                  <View style={styles.eventActions}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setNewEvent(item);
-                        setEditingIndex(index);
-                        setModalVisible(true);
-                      }}
-                    >
-                      <Text style={styles.editText}>✏️ Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleDeleteEvent(index)}>
-                      <Text style={styles.deleteText}>🗑 Delete</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-            />
-          ) : (
-            <Text style={styles.noEvent}>No events yet for this date.</Text>
-          )}
-
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => {
-              setNewEvent("");
-              setEditingIndex(null);
-              setModalVisible(true);
-            }}
-          >
-            <Text style={styles.addButtonText}>+ Add Event</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <Text style={styles.noEvent}>Select a date to see events.</Text>
-      )}
-
-      {/* Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>
-              {editingIndex !== null ? "Edit Event" : "Add Event"}
-            </Text>
-            <TextInput
-              placeholder="Enter event (e.g., Training, Exam)"
-              placeholderTextColor="#999"
-              value={newEvent}
-              onChangeText={setNewEvent}
-              style={styles.input}
-            />
+      {/* Events List */}
+      <FlatList
+        data={events.filter((event) => event.date === selectedDate)}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <View style={styles.eventBox}>
+            <Text style={styles.eventTitle}>{item.title}</Text>
+            <Text style={styles.eventText}>{item.description}</Text>
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
-                style={styles.addEventButton}
-                onPress={handleSaveEvent}
+                onPress={() => {
+                  setEditingIndex(index);
+                  setNewTitle(item.title);
+                  setNewDescription(item.description);
+                  setModalVisible(true);
+                }}
               >
-                <Text style={styles.addEventButtonText}>
-                  {editingIndex !== null ? "Save" : "Add"}
+                <Text style={styles.editText}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleDeleteEvent(index)}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        ListEmptyComponent={<Text style={styles.noEvent}>No events for this day.</Text>}
+      />
+
+      {/* Add Button */}
+      <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+        <Text style={styles.addButtonText}>+ Add Event</Text>
+      </TouchableOpacity>
+
+      {/* Modal */}
+      <Modal transparent visible={modalVisible} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>{editingIndex !== null ? "Edit Event" : "Add Event"}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Event Title"
+              placeholderTextColor="#888"
+              value={newTitle}
+              onChangeText={setNewTitle}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              placeholderTextColor="#888"
+              value={newDescription}
+              onChangeText={setNewDescription}
+            />
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.addEventButton} onPress={handleAddEvent}>
+                <Text style={styles.addButtonText}>
+                  {editingIndex !== null ? "Save Changes" : "Add Event"}
                 </Text>
               </TouchableOpacity>
 
@@ -214,8 +173,9 @@ export default function CalendarScreen() {
                 style={styles.cancelButton}
                 onPress={() => {
                   setModalVisible(false);
-                  setNewEvent("");
                   setEditingIndex(null);
+                  setNewTitle("");
+                  setNewDescription("");
                 }}
               >
                 <Text style={styles.cancelButtonText}>Cancel</Text>
@@ -225,7 +185,7 @@ export default function CalendarScreen() {
         </View>
       </Modal>
 
-      {/* Bottom Nav */}
+      {/* Navbar */}
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => router.push("/dashboard")}>
           <Text style={styles.navText}>🏠 Home</Text>
@@ -242,4 +202,6 @@ export default function CalendarScreen() {
       </View>
     </View>
   );
-}
+};
+
+export default CalendarScreen;
