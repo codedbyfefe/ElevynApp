@@ -2,12 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
     Button,
     Modal,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import styles from "../styles/calendarstyles";
@@ -18,6 +19,7 @@ export default function CalendarScreen() {
   const [events, setEvents] = useState<any>({}); 
   const [modalVisible, setModalVisible] = useState(false);
   const [newEvent, setNewEvent] = useState("");
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const handleAddEvent = () => {
     if (selectedDate && newEvent.trim() !== "") {
@@ -60,6 +62,51 @@ export default function CalendarScreen() {
     };
     saveEvents();
   }, [events]);
+
+
+  // Add or Edit Event
+  const handleSaveEvent = () => {
+    if (!selectedDate || !newEvent.trim()) return;
+
+    const updatedEvents = { ...events };
+
+    if (editingIndex !== null) {
+      // Edit existing event
+      updatedEvents[selectedDate][editingIndex] = newEvent.trim();
+    } else {
+      // Add new event
+      updatedEvents[selectedDate] = [
+        ...(events[selectedDate] || []),
+        newEvent.trim(),
+      ];
+    }
+
+    setEvents(updatedEvents);
+    setNewEvent("");
+    setEditingIndex(null);
+    setModalVisible(false);
+  };
+
+  // Delete Event
+  const handleDeleteEvent = (index: number) => {
+    Alert.alert("Delete Event", "Are you sure you want to delete this event?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          const updatedEvents = { ...events };
+          updatedEvents[selectedDate].splice(index, 1);
+
+          if (updatedEvents[selectedDate].length === 0) {
+            delete updatedEvents[selectedDate];
+          }
+
+          setEvents(updatedEvents);
+        },
+      },
+    ]);
+  };
 
   return (
     <View style={styles.container}>
