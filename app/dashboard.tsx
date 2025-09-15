@@ -32,7 +32,7 @@ export default function DashboardScreen() {
         <TouchableOpacity onPress={() => router.push("/dashboard")}>
           <Text style={styles.navText}>🏠 Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progress")}>
+        <TouchableOpacity onPress={() => router.push("/progressdashboard")}>
           <Text style={styles.navText}>📊 Progress</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/calendar")}>
