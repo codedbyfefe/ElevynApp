@@ -37,7 +37,7 @@ export default function DashboardScreen() {
         <TouchableOpacity onPress={() => router.push("/calendar")}>
           <Text style={styles.navText}>📅 Calendar</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("../performancetracker")}>
+        <TouchableOpacity onPress={() => router.push("../SvgTest")}>
           <Text style={styles.navText}>🏀 Performance</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/profile")}>
