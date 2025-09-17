@@ -1,16 +1,14 @@
 import { View } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Circle, Rect } from "react-native-svg";
 
 export default function SvgTest() {
   return (
-    <View>
-      <Svg height="100" width="100">
-        <Path
-          d="M10 80 C 40 10, 65 10, 95 80"
-          stroke="black"
-          strokeWidth="2"
-          fill="transparent"
-        />
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "white" }}>
+      <Svg height="200" width="200">
+        {/* Big red circle */}
+        <Circle cx="100" cy="100" r="80" stroke="black" strokeWidth="2.5" fill="red" />
+        {/* Blue square */}
+        <Rect x="30" y="30" width="140" height="140" stroke="blue" strokeWidth="2" fill="transparent" />
       </Svg>
     </View>
   );

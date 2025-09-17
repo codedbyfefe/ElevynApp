@@ -25,19 +25,29 @@ const ProgressDashboard = () => {
         {/* Wellness Score Circular Graph */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Wellness Score</Text>
-          <VictoryPie
-            data={[
-              { x: "Energy", y: wellnessScore },
-              { x: "Remaining", y: 100 - wellnessScore },
-            ]}
-            colorScale={["#4CAF50", "#333"]}
-            innerRadius={70}
-            padAngle={3}
-            labels={() => null}
-            width={250}
-            height={250}
-          />
-          <Text style={styles.valueText}>{wellnessScore}%</Text>
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <VictoryPie
+              data={[
+                { x: "Energy", y: wellnessScore },
+                { x: "Remaining", y: 100 - wellnessScore },
+              ]}
+              colorScale={["#4CAF50", "#333"]}
+              innerRadius={70}
+              padAngle={3}
+              labels={() => null}
+              width={250}
+              height={250}
+            />
+            <View
+              style={{
+                position: "absolute",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.valueText}>{wellnessScore}%</Text>
+            </View>
+          </View>
         </View>
 
         {/* Academic Performance */}
@@ -51,7 +61,7 @@ const ProgressDashboard = () => {
         {/* Athletic Events */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Athletic Events</Text>
-          <VictoryChart>
+          <VictoryChart width={350} height={250}>
             <VictoryLine
               data={[
                 { x: 1, y: 2 },

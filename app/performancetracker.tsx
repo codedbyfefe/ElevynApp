@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { VictoryBar, VictoryChart, VictoryLine, VictoryTheme } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryLine } from "victory-native";
 import styles from "../styles/performancetrackerstyles";
 
 const gameStats = [
@@ -19,7 +19,7 @@ export default function PerformanceTracker() {
 
         {/* Points Over Games */}
         <Text style={styles.sectionTitle}>Points Over Time</Text>
-        <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
+        <VictoryChart>
           <VictoryBar
             data={gameStats}
             x="game"
@@ -30,7 +30,7 @@ export default function PerformanceTracker() {
 
         {/* Field Goal % Line Graph */}
         <Text style={styles.sectionTitle}>Field Goal %</Text>
-        <VictoryChart theme={VictoryTheme.material}>
+        <VictoryChart>
           <VictoryLine
             data={gameStats}
             x="game"
