@@ -4,6 +4,8 @@
     "strict": true,
     "jsx": "react-jsx",
     "types": ["react", "react-native"],
+    "skipLibCheck": true, // <-- Ignores bad/incomplete type definitions
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }
@@ -12,7 +14,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "declarations.d.ts"
   ]
 }
-

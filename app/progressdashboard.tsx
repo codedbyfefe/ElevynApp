@@ -1,79 +1,100 @@
-import { ScrollView, Text, View } from "react-native";
-import { VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryTheme } from "victory";
+import { useRouter } from "expo-router";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { VictoryChart, VictoryLine, VictoryPie } from "victory-native";
 import styles from "../styles/progressdashboardstyles";
 
 const ProgressDashboard = () => {
+  const router = useRouter();
+
   // Example data
+  const academicTasks = { done: 5, total: 7 };
+  const athleticEvents = { trainings: 3, games: 1 };
   const wellnessScore = 72;
 
-  const academicData = [
-    { task: "Done", value: 5 },
-    { task: "Remaining", value: 2 },
-  ];
-
-  const athleticData = [
-    { day: 1, events: 1 },
-    { day: 2, events: 1 },
-    { day: 3, events: 0 },
-    { day: 4, events: 1 },
-    { day: 5, events: 1 },
-    { day: 6, events: 0 },
-    { day: 7, events: 0 },
-  ];
+  const balanceMessage =
+    athleticEvents.trainings + athleticEvents.games >
+    (academicTasks.done / academicTasks.total) * 7
+      ? "You’ve logged more hours on sport than study this week — try adjusting."
+      : "Great balance between academics and athletics this week!";
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Progress Dashboard</Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.header}>📊 Progress Dashboard</Text>
 
-      {/* Wellness Score Donut Chart */}
-      <View style={styles.chartContainer}>
-        <Text style={styles.chartTitle}>Wellness Score</Text>
-        <VictoryPie
-          data={[
-            { x: "Wellness", y: wellnessScore },
-            { x: "Remaining", y: 100 - wellnessScore },
-          ]}
-          colorScale={["#4CAF50", "#E0E0E0"]}
-          width={250}
-          height={250}
-          innerRadius={90}
-          labels={() => null}
-        />
-        <View style={styles.donutCenter}>
-          <Text style={styles.donutText}>{`${wellnessScore}%`}</Text>
+        {/* Wellness Score Circular Graph */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Wellness Score</Text>
+          <VictoryPie
+            data={[
+              { x: "Energy", y: wellnessScore },
+              { x: "Remaining", y: 100 - wellnessScore },
+            ]}
+            colorScale={["#4CAF50", "#333"]}
+            innerRadius={70}
+            padAngle={3}
+            labels={() => null}
+            width={250}
+            height={250}
+          />
+          <Text style={styles.valueText}>{wellnessScore}%</Text>
         </View>
-      </View>
 
-      {/* Academic Tasks Bar Chart */}
-      <View style={styles.chartContainer}>
-        <Text style={styles.chartTitle}>Academic Tasks (This Week)</Text>
-        <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
-          <VictoryBar
-            data={academicData}
-            x="task"
-            y="value"
-            style={{
-              data: { fill: "#2196F3", width: 40 },
-            }}
-          />
-        </VictoryChart>
-      </View>
+        {/* Academic Performance */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Academic Tasks</Text>
+          <Text style={styles.valueText}>
+            {academicTasks.done}/{academicTasks.total} completed this week
+          </Text>
+        </View>
 
-      {/* Athletic Events Line Chart */}
-      <View style={styles.chartContainer}>
-        <Text style={styles.chartTitle}>Athletic Events Attended</Text>
-        <VictoryChart theme={VictoryTheme.material}>
-          <VictoryLine
-            data={athleticData}
-            x="day"
-            y="events"
-            style={{
-              data: { stroke: "#FF9800", strokeWidth: 3 },
-            }}
-          />
-        </VictoryChart>
+        {/* Athletic Events */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Athletic Events</Text>
+          <VictoryChart>
+            <VictoryLine
+              data={[
+                { x: 1, y: 2 },
+                { x: 2, y: 3 },
+                { x: 3, y: 5 },
+                { x: 4, y: 4 },
+              ]}
+              style={{
+                data: { stroke: "#1D2D44", strokeWidth: 3 },
+              }}
+            />
+          </VictoryChart>
+          <Text style={styles.valueText}>
+            {athleticEvents.trainings} trainings, {athleticEvents.games} games
+          </Text>
+        </View>
+
+        {/* Balance Insight */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Balance Insight</Text>
+          <Text style={styles.insightText}>{balanceMessage}</Text>
+        </View>
+      </ScrollView>
+
+      {/* Bottom Nav */}
+      <View style={styles.navbar}>
+        <TouchableOpacity onPress={() => router.push("/dashboard")}>
+          <Text style={styles.navText}>🏠 Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/progressdashboard")}>
+          <Text style={styles.navText}>📊 Progress</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/calendar")}>
+          <Text style={styles.navText}>📅 Calendar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/performancetracker")}>
+          <Text style={styles.navText}>🏀 Performance</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/profile")}>
+          <Text style={styles.navText}>👤 Profile</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

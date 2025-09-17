@@ -1,0 +1,70 @@
+import { useRouter } from "expo-router";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { VictoryBar, VictoryChart, VictoryLine, VictoryTheme } from "victory-native";
+import styles from "../styles/performancetrackerstyles";
+
+const gameStats = [
+  { game: 1, points: 18, rebounds: 5, assists: 4, fg: 45 },
+  { game: 2, points: 22, rebounds: 7, assists: 6, fg: 50 },
+  { game: 3, points: 15, rebounds: 4, assists: 5, fg: 38 },
+];
+
+export default function PerformanceTracker() {
+  const router = useRouter();
+
+  return (
+    <View style={{ flex: 1, backgroundColor: "#111315" }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.header}>🏀 Performance Tracker</Text>
+
+        {/* Points Over Games */}
+        <Text style={styles.sectionTitle}>Points Over Time</Text>
+        <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
+          <VictoryBar
+            data={gameStats}
+            x="game"
+            y="points"
+            style={{ data: { fill: "#A6E1FA" } }}
+          />
+        </VictoryChart>
+
+        {/* Field Goal % Line Graph */}
+        <Text style={styles.sectionTitle}>Field Goal %</Text>
+        <VictoryChart theme={VictoryTheme.material}>
+          <VictoryLine
+            data={gameStats}
+            x="game"
+            y="fg"
+            style={{
+              data: { stroke: "#FFD700", strokeWidth: 3 },
+            }}
+          />
+        </VictoryChart>
+
+        {/* Summary Box */}
+        <View style={styles.summaryBox}>
+          <Text style={styles.summaryTitle}>Summary</Text>
+          <Text style={styles.summaryText}>Game 1: 18 pts, 5 reb, 4 ast (FG% 45)</Text>
+          <Text style={styles.summaryText}>Game 2: 22 pts, 7 reb, 6 ast (FG% 50)</Text>
+          <Text style={styles.summaryText}>Game 3: 15 pts, 4 reb, 5 ast (FG% 38)</Text>
+        </View>
+      </ScrollView>
+
+      {/* Bottom Navbar */}
+      <View style={styles.navbar}>
+        <TouchableOpacity onPress={() => router.push("/dashboard")}>
+          <Text style={styles.navText}>🏠 Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/progress")}>
+          <Text style={styles.navText}>📊 Progress</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/calendar")}>
+          <Text style={styles.navText}>📅 Calendar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/profile")}>
+          <Text style={styles.navText}>👤 Profile</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}

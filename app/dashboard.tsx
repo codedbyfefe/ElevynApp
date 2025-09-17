@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import styles from "../styles/dashboardstyles";
 
@@ -27,7 +26,7 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      {/* Placeholder Nav */}
+      {/* Bottom Nav */}
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => router.push("/dashboard")}>
           <Text style={styles.navText}>🏠 Home</Text>
@@ -38,6 +37,9 @@ export default function DashboardScreen() {
         <TouchableOpacity onPress={() => router.push("/calendar")}>
           <Text style={styles.navText}>📅 Calendar</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("../performancetracker")}>
+          <Text style={styles.navText}>🏀 Performance</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/profile")}>
           <Text style={styles.navText}>👤 Profile</Text>
         </TouchableOpacity>
@@ -45,3 +47,4 @@ export default function DashboardScreen() {
     </View>
   );
 }
+
