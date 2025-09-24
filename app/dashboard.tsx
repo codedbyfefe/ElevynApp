@@ -40,8 +40,8 @@ export default function DashboardScreen() {
         <TouchableOpacity onPress={() => router.push("../performancetracker")}>
           <Text style={styles.navText}>🏀 Performance</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/profile")}>
-          <Text style={styles.navText}>👤 Profile</Text>
+        <TouchableOpacity onPress={() => router.push("../settings")}>
+          <Text style={styles.navText}>👤 Settings</Text>
         </TouchableOpacity>
       </View>
     </View>
