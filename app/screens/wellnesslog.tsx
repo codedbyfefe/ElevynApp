@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "../styles/wellnessstyles";
+import styles from "styles/wellnessstyles";
 
 const WellnessLog = () => {
   const [sleep, setSleep] = useState("");

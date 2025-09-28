@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import styles from "styles/progressdashboardstyles";
 import { VictoryChart, VictoryLine, VictoryPie } from "victory-native";
-import styles from "../styles/progressdashboardstyles";
 
 const ProgressDashboard = () => {
   const router = useRouter();
@@ -85,25 +85,6 @@ const ProgressDashboard = () => {
           <Text style={styles.insightText}>{balanceMessage}</Text>
         </View>
       </ScrollView>
-
-      {/* Bottom Nav */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Text style={styles.navText}>🏠 Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progressdashboard")}>
-          <Text style={styles.navText}>📊 Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.navText}>📅 Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/performancetracker")}>
-          <Text style={styles.navText}>🏀 Performance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/profile")}>
-          <Text style={styles.navText}>👤 Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

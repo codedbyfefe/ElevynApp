@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import styles from "../styles/calendarstyles";
+import styles from "styles/calendarstyles";
 
 export default function CalendarScreen() {
   const router = useRouter();
@@ -206,22 +206,6 @@ export default function CalendarScreen() {
           </View>
         </View>
       </Modal>
-
-      {/* Bottom Nav */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Text style={styles.navText}>🏠 Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progress")}>
-          <Text style={styles.navText}>📊 Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.navText}>📅 Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/profile")}>
-          <Text style={styles.navText}>👤 Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

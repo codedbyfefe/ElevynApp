@@ -1,16 +1,16 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    Image,
-    Modal,
-    ScrollView,
-    Switch,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Modal,
+  ScrollView,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import styles from "../styles/settingsstyles";
+import styles from "styles/settingsstyles";
 
 const SettingsScreen = () => {
   const router = useRouter();
@@ -198,25 +198,6 @@ const SettingsScreen = () => {
           </View>
         </View>
       </Modal>
-
-      {/* Bottom Navbar */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Text style={styles.navText}>🏠 Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progressdashboard")}>
-          <Text style={styles.navText}>📊 Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.navText}>📅 Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/performancetracker")}>
-          <Text style={styles.navText}>⚡ Performance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/settings")}>
-          <Text style={styles.navText}>⚙️ Settings</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

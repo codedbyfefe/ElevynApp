@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "../styles/registerstyles";
 
@@ -38,7 +38,7 @@ export default function RegisterScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("/dashboard")}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("../screens/dashboard")}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 

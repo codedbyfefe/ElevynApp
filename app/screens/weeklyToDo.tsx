@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import styles from "../styles/weeklytodoliststyles";
+import styles from "styles/weeklytodoliststyles";
 
 const WeeklyToDo = () => {
   const router = useRouter();
@@ -73,28 +73,6 @@ const WeeklyToDo = () => {
           </View>
         ))}
       </ScrollView>
-
-      {/* Bottom Navbar */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Text style={styles.navText}>🏠 Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progressdashboard")}>
-          <Text style={styles.navText}>📊 Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.navText}>📅 Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/performancetracker")}>
-          <Text style={styles.navText}>⚡ Performance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("../weeklyTodo")}>
-          <Text style={styles.navText}>📝 To-Do</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/settings")}>
-          <Text style={styles.navText}>⚙️ Settings</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

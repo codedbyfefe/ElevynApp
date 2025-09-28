@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import styles from "styles/performancetrackerstyles";
 import { VictoryBar, VictoryChart, VictoryLine } from "victory-native";
-import styles from "../styles/performancetrackerstyles";
 
 const gameStats = [
   { game: 1, points: 18, rebounds: 5, assists: 4, fg: 45 },
@@ -49,22 +49,6 @@ export default function PerformanceTracker() {
           <Text style={styles.summaryText}>Game 3: 15 pts, 4 reb, 5 ast (FG% 38)</Text>
         </View>
       </ScrollView>
-
-      {/* Bottom Navbar */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Text style={styles.navText}>🏠 Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/progress")}>
-          <Text style={styles.navText}>📊 Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.navText}>📅 Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/profile")}>
-          <Text style={styles.navText}>👤 Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
