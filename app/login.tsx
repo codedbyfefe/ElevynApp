@@ -29,7 +29,7 @@ export default function LoginScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("../screens/dashboard")}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("../(app)/(tabs)/dashboard")}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 

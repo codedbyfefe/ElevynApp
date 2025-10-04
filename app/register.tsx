@@ -38,7 +38,7 @@ export default function RegisterScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("../screens/dashboard")}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("../(app)/(tabs)/dashboard")}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 

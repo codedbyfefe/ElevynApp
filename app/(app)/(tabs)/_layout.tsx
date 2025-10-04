@@ -1,13 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-export default function ScreensLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: { backgroundColor: "#111" },
-        tabBarActiveTintColor: "#4577f5ff",
+        tabBarActiveTintColor: "#0834c7ff",
         tabBarInactiveTintColor: "#aaa",
         tabBarIcon: ({ color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap = "home";
@@ -17,16 +17,16 @@ export default function ScreensLayout() {
               iconName = "home";
               break;
             case "calendar":
-              iconName = "calendar";
+              iconName = "calendar-outline";
               break;
             case "performancetracker":
-              iconName = "barbell";
+              iconName = "barbell-outline";
               break;
             case "weeklytodo":
-              iconName = "barbell";
+              iconName = "checkmark-done-outline"; // this icon isnt displaying properly (need to fix)
               break;
             case "wellnesslog":
-              iconName = "heart";
+              iconName = "heart-outline";
               break;
           }
 
@@ -34,6 +34,14 @@ export default function ScreensLayout() {
         },
       })}
     >
+      <Tabs.Screen name="dashboard" options={{ title: "Dashboard" }} />
+      <Tabs.Screen name="calendar" options={{ title: "Calendar" }} />
+      <Tabs.Screen
+        name="performancetracker"
+        options={{ title: "Performance" }}
+      />
+      <Tabs.Screen name="weeklytodo" options={{ title: "Weekly To-Do" }} />
+      <Tabs.Screen name="wellnesslog" options={{ title: "Wellness" }} />
     </Tabs>
   );
 }
