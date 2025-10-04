@@ -19,14 +19,11 @@ export default function ScreensLayout() {
             case "calendar":
               iconName = "calendar";
               break;
-            case "progressdashboard":
-              iconName = "stats-chart";
-              break;
             case "performancetracker":
               iconName = "barbell";
               break;
             case "weeklytodo":
-              iconName = "list";
+              iconName = "barbell";
               break;
             case "wellnesslog":
               iconName = "heart";

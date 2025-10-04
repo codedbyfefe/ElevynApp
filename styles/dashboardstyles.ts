@@ -3,52 +3,89 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#111315",
     padding: 20,
+    paddingBottom: 100, // space so content isn't hidden behind nav
+    backgroundColor: "#0D1B2A",
+  },
+  scrollContent: {
+    paddingBottom: 120, // ensure scroll doesn’t overlap with nav
   },
   header: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "700",
     color: "#FFFFFF",
     marginBottom: 20,
+    textAlign: "center",
   },
-  cardContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 40,
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#A6E1FA",
+    marginTop: 15,
+    marginBottom: 10,
   },
+
+  // Card container
   card: {
-    flex: 1,
     backgroundColor: "#1D2D44",
-    padding: 20,
+    padding: 15,
     borderRadius: 12,
-    marginHorizontal: 5,
+    marginBottom: 20,
     alignItems: "center",
   },
   cardTitle: {
-    color: "#A7A9AB",
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  cardValue: {
-    color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "600",
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderTopColor: "#333",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "#1D2D44",
-  },
-  navText: {
     color: "#A6E1FA",
-    fontSize: 16,
+    marginBottom: 10,
   },
+  wellnessText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  valueText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  insightBox: {
+    marginTop: 20,
+    backgroundColor: "#1D2D44",
+    padding: 15,
+    borderRadius: 10,
+  },
+  insightText: {
+    fontSize: 14,
+    color: "#FFFFFF",
+    textAlign: "center",
+  },
+  row: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  marginBottom: 16,
+},
+halfCard: {
+  flex: 1,
+  marginHorizontal: 4,
+},
+upcomingItem: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  paddingVertical: 8,
+  borderBottomWidth: 0.5,
+  borderBottomColor: "#444",
+},
+upcomingTitle: {
+  fontSize: 14,
+  color: "#fff",
+},
+upcomingTime: {
+  fontSize: 13,
+  color: "#aaa",
+},
 });

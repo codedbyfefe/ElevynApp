@@ -50,20 +50,4 @@ export default StyleSheet.create({
     textDecorationLine: "line-through",
     color: "#777",
   },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderTopColor: "#333",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "#1D2D44",
-  },
-  navText: {
-    color: "#A6E1FA",
-    fontSize: 16,
-  },
 });

@@ -35,17 +35,5 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 14,
     marginBottom: 5,
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#1D2D44",
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#333",
-  },
-  navText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-  },
+  }
 });
