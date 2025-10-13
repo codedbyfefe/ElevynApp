@@ -35,5 +35,84 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 14,
     marginBottom: 5,
-  }
+  },
+  sectionBox: {
+  backgroundColor: "#1C1F22",
+  borderRadius: 12,
+  padding: 15,
+  marginBottom: 20,
+  shadowColor: "#000",
+  shadowOpacity: 0.3,
+  shadowRadius: 4,
+},
+subTitle: {
+  color: "#ccc",
+  fontSize: 16,
+  marginTop: 10,
+  marginBottom: 5,
+},
+inputRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginVertical: 10,
+},
+input: {
+  flex: 1,
+  backgroundColor: "#222",
+  color: "#fff",
+  paddingHorizontal: 10,
+  paddingVertical: 8,
+  borderRadius: 8,
+  marginRight: 10,
+},
+button: {
+  backgroundColor: "#4CAF50",
+  paddingVertical: 10,
+  borderRadius: 8,
+  alignItems: "center",
+  marginBottom: 10,
+},
+buttonText: {
+  color: "#fff",
+  fontWeight: "600",
+},
+loadTitle: {
+  color: "#FFD700",
+  fontSize: 16,
+  marginVertical: 10,
+},
+workoutItem: {
+  backgroundColor: "#222",
+  padding: 10,
+  borderRadius: 8,
+  marginBottom: 8,
+},
+workoutName: {
+  color: "#fff",
+  fontWeight: "600",
+},
+workoutMeta: {
+  color: "#aaa",
+  fontSize: 13,
+},
+chartRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginVertical: 10,
+},
+chartBox: {
+  backgroundColor: "#1C1F22",
+  borderRadius: 10,
+  paddingVertical: 5,
+  alignItems: "center",
+  justifyContent: "center",
+},
+chartLabel: {
+  color: "#fff",
+  fontSize: 14,
+  marginBottom: -10,
+},
+
 });
