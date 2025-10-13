@@ -113,6 +113,16 @@ export default function PrivateLayout() {
           ),
         }}
       />
+     <Drawer.Screen
+        name="(app)"
+        options={{
+          drawerLabel: "Assignments",
+          title: "",                
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="book-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Drawer>
   );
 }
