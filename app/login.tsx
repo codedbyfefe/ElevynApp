@@ -1,41 +1,46 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "../styles/loginstyles";
+import { Alert, Button, Text, TextInput, View } from "react-native";
+import { loginUser } from "../app/firebase/authService";
 
 export default function LoginScreen() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      await loginUser(email, password);
+      router.replace("/(app)/(tabs)/dashboard");
+    } catch (error: unknown) {
+      let message = "An unknown error occurred.";
+      if (error instanceof Error) {
+        message = error.message;
+      } else if (typeof error === "string") {
+        message = error;
+      }
+      Alert.alert("Login Failed", message);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-
+    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
+      <Text>Email</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#A7A9AB"
+        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
         value={email}
         onChangeText={setEmail}
+        placeholder="Enter email"
       />
-
+      <Text>Password</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#A7A9AB"
-        secureTextEntry
+        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
         value={password}
         onChangeText={setPassword}
+        placeholder="Enter password"
+        secureTextEntry
       />
-
-      <TouchableOpacity style={styles.button} onPress={() => router.push("../(app)/(tabs)/dashboard")}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => router.push("/register")}>
-        <Text style={styles.link}>Don't have an account? Register</Text>
-      </TouchableOpacity>
+      <Button title="Login" onPress={handleLogin} />
     </View>
   );
 }
