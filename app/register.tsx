@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Button, Text, TextInput, View } from "react-native";
-import { registerUser } from "../app/firebase/authService";
+import { registerUser } from "../firebase/authService";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
@@ -15,11 +15,7 @@ export default function RegisterScreen() {
       router.replace("/login");
     } catch (error: unknown) {
       let message = "An unknown error occurred.";
-      if (error instanceof Error) {
-        message = error.message;
-      } else if (typeof error === "string") {
-        message = error;
-      }
+      if (error instanceof Error) message = error.message;
       Alert.alert("Registration Failed", message);
     }
   };

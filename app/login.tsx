@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Button, Text, TextInput, View } from "react-native";
-import { loginUser } from "../app/firebase/authService";
+import { loginUser } from "../firebase/authService";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -14,11 +14,7 @@ export default function LoginScreen() {
       router.replace("/(app)/(tabs)/dashboard");
     } catch (error: unknown) {
       let message = "An unknown error occurred.";
-      if (error instanceof Error) {
-        message = error.message;
-      } else if (typeof error === "string") {
-        message = error;
-      }
+      if (error instanceof Error) message = error.message;
       Alert.alert("Login Failed", message);
     }
   };
@@ -31,7 +27,9 @@ export default function LoginScreen() {
         value={email}
         onChangeText={setEmail}
         placeholder="Enter email"
+        autoCapitalize="none"
       />
+
       <Text>Password</Text>
       <TextInput
         style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
@@ -40,6 +38,7 @@ export default function LoginScreen() {
         placeholder="Enter password"
         secureTextEntry
       />
+
       <Button title="Login" onPress={handleLogin} />
     </View>
   );

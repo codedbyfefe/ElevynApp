@@ -1,3 +1,4 @@
+// firebase/firebaseConfig.ts
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -11,11 +12,10 @@ const firebaseConfig = {
   appId: "1:858325490671:web:4d4b28a320adfc8945b41a",
   measurementId: "G-5PSD1Y0R62"
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize services
+// Export Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
-export default app;
