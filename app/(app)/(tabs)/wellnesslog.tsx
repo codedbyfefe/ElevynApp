@@ -79,7 +79,7 @@ const WellnessLog = () => {
         {/* Guided Meditation */}
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("/(app)/wellness/meditation")}
+          onPress={() => router.push("../app/wellness/meditation")}
         >
           <Text style={styles.resourceTitle}>🧘 Guided Meditation</Text>
           <Text style={styles.resourceText}>Short sessions to reduce stress and improve focus.</Text>
@@ -88,7 +88,7 @@ const WellnessLog = () => {
         {/* Nutrition */}
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("/(app)/wellness/nutrition")}
+          onPress={() => router.push("../app/wellness/nutrition")}
         >
           <Text style={styles.resourceTitle}>🥑 Nutrition Tips</Text>
           <Text style={styles.resourceText}>Learn how to fuel your body for peak performance.</Text>
@@ -97,7 +97,7 @@ const WellnessLog = () => {
         {/* Journal */}
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("/(app)/wellness/journal")}
+          onPress={() => router.push("../app/wellness/journal")}
         >
           <Text style={styles.resourceTitle}>📔 Journal</Text>
           <Text style={styles.resourceText}>Improve Mindfulness by writing down what's on your mind.</Text>

@@ -19,7 +19,7 @@ function CustomDrawerContent(props: any) {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
 
-  // ✅ Listen for auth changes & load Firestore user
+  // Listen for auth changes & load Firestore user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -52,7 +52,7 @@ function CustomDrawerContent(props: any) {
         </Text>
       </View>
 
-      {/* ✅ Drawer items (must forward all props) */}
+      {/*Drawer items (must forward all props) */}
       <View style={{ flex: 1 }}>
         <DrawerItemList {...props} />
       </View>
@@ -81,7 +81,7 @@ export default function PrivateLayout() {
 
   return (
     <Drawer
-      // ✅ Properly pass props to custom drawer content
+      // Properly pass props to custom drawer content
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: "#00194C" },

@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import styles from "styles/dashboardstyles";
-import { VictoryChart, VictoryLine, VictoryPie } from "victory-native";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -22,74 +21,23 @@ const Dashboard = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.header}>📊 Progress Dashboard</Text>
 
-        {/* Top Row - Wellness + Academic Performance */}
-        <View style={styles.row}>
-          {/* Wellness */}
-          <View style={[styles.card, styles.halfCard]}>
-            <Text style={styles.cardTitle}>Wellness Score</Text>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <VictoryPie
-                data={[
-                  { x: "Energy", y: wellnessScore },
-                  { x: "Remaining", y: 100 - wellnessScore },
-                ]}
-                colorScale={["#4CAF50", "#333"]}
-                innerRadius={60}
-                padAngle={3}
-                labels={() => null}
-                width={160}
-                height={160}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={styles.valueText}>{wellnessScore}%</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* Academic */}
-          <View style={[styles.card, styles.halfCard]}>
-            <Text style={styles.cardTitle}>Academic Tasks</Text>
-            <Text style={styles.valueText}>
-              {academicTasks.done}/{academicTasks.total} completed
-            </Text>
-            <VictoryChart width={180} height={140}>
-              <VictoryLine
-                data={[
-                  { x: 1, y: 2 },
-                  { x: 2, y: 4 },
-                  { x: 3, y: 5 },
-                  { x: 4, y: 7 },
-                ]}
-                style={{
-                  data: { stroke: "#2196F3", strokeWidth: 3 },
-                }}
-              />
-            </VictoryChart>
-          </View>
+        {/* Wellness */}
+        <View style={[styles.card, styles.halfCard]}>
+          <Text style={styles.cardTitle}>Wellness Score</Text>
+          <Text style={styles.valueText}>{wellnessScore}%</Text>
         </View>
 
-        {/* Athletic Events Section */}
+        {/* Academic Tasks */}
+        <View style={[styles.card, styles.halfCard]}>
+          <Text style={styles.cardTitle}>Academic Tasks</Text>
+          <Text style={styles.valueText}>
+            {academicTasks.done}/{academicTasks.total} completed
+          </Text>
+        </View>
+
+        {/* Athletic Events */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Athletic Events</Text>
-          <VictoryChart width={350} height={250}>
-            <VictoryLine
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-              ]}
-              style={{
-                data: { stroke: "#1D2D44", strokeWidth: 3 },
-              }}
-            />
-          </VictoryChart>
           <Text style={styles.valueText}>
             {athleticEvents.trainings} trainings, {athleticEvents.games} games
           </Text>
