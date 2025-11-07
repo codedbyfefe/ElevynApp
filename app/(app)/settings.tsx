@@ -31,7 +31,7 @@ const SettingsScreen = () => {
   // Demo form state
   const [sport, setSport] = useState("Basketball");
   const [major, setMajor] = useState("Computer Science");
-  const [selectedAvatar, setSelectedAvatar] = useState("https://via.placeholder.com/100");
+  const [selectedAvatar, setSelectedAvatar] = useState("https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg");
 
   // Avatar options
   const avatarOptions = [

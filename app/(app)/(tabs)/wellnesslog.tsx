@@ -1,5 +1,6 @@
+import { WellnessContext } from "app/context/WellnessContext";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "styles/wellnessstyles";
 
@@ -10,17 +11,23 @@ const WellnessLog = () => {
   const [nutrition, setNutrition] = useState("");
 
   const router = useRouter();
+  const { updateOverview } = useContext(WellnessContext);
 
   const handleSaveLog = () => {
-    console.log({
-      sleep,
-      stress,
-      activity,
-      nutrition,
-    });
+    // Compute overview data
+    const overview = {
+      avgSleep: parseFloat(sleep) || 0,
+      avgStress: parseFloat(stress) || 0,
+      totalActivity: parseFloat(activity) || 0,
+      latestNutrition: nutrition,
+    };
+
+    // Update dashboard context
+    updateOverview(overview);
 
     alert("Wellness log saved!");
 
+    // Clear inputs
     setSleep("");
     setStress("");
     setActivity("");
@@ -32,7 +39,6 @@ const WellnessLog = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.header}>🌱 Wellness Log</Text>
 
-        {/* Input Fields */}
         <Text style={styles.label}>😴 Sleep Hours</Text>
         <TextInput
           style={styles.input}
@@ -73,34 +79,22 @@ const WellnessLog = () => {
           <Text style={styles.saveButtonText}>Save Log</Text>
         </TouchableOpacity>
 
-        {/* Wellness Resources */}
         <Text style={styles.sectionTitle}>📚 Wellness Resources</Text>
 
-        {/* Guided Meditation */}
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("../app/wellness/meditation")}
+          onPress={() => router.push("./meditation")}
         >
           <Text style={styles.resourceTitle}>🧘 Guided Meditation</Text>
           <Text style={styles.resourceText}>Short sessions to reduce stress and improve focus.</Text>
         </TouchableOpacity>
 
-        {/* Nutrition */}
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("../app/wellness/nutrition")}
+          onPress={() => router.push("./nutrition")}
         >
           <Text style={styles.resourceTitle}>🥑 Nutrition Tips</Text>
           <Text style={styles.resourceText}>Learn how to fuel your body for peak performance.</Text>
-        </TouchableOpacity>
-
-        {/* Journal */}
-        <TouchableOpacity
-          style={styles.resourceCard}
-          onPress={() => router.push("../app/wellness/journal")}
-        >
-          <Text style={styles.resourceTitle}>📔 Journal</Text>
-          <Text style={styles.resourceText}>Improve Mindfulness by writing down what's on your mind.</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

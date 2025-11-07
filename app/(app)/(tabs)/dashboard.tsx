@@ -1,14 +1,15 @@
+import { WellnessContext } from "app/context/WellnessContext";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
 import { ScrollView, Text, View } from "react-native";
 import styles from "styles/dashboardstyles";
 
 const Dashboard = () => {
   const router = useRouter();
+  const { overview: wellnessOverview } = useContext(WellnessContext);
 
-  // Example data
   const academicTasks = { done: 5, total: 7 };
   const athleticEvents = { trainings: 3, games: 1 };
-  const wellnessScore = 72;
 
   const balanceMessage =
     athleticEvents.trainings + athleticEvents.games >
@@ -23,8 +24,11 @@ const Dashboard = () => {
 
         {/* Wellness */}
         <View style={[styles.card, styles.halfCard]}>
-          <Text style={styles.cardTitle}>Wellness Score</Text>
-          <Text style={styles.valueText}>{wellnessScore}%</Text>
+          <Text style={styles.cardTitle}>Wellness Overview</Text>
+          <Text style={styles.valueText}>Sleep: {wellnessOverview.avgSleep} hrs</Text>
+          <Text style={styles.valueText}>Stress: {wellnessOverview.avgStress}/10</Text>
+          <Text style={styles.valueText}>Activity: {wellnessOverview.totalActivity} min</Text>
+          <Text style={styles.valueText}>Nutrition: {wellnessOverview.latestNutrition}</Text>
         </View>
 
         {/* Academic Tasks */}

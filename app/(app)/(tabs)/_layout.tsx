@@ -10,23 +10,23 @@ export default function TabsLayout() {
         tabBarActiveTintColor: "#0834c7ff",
         tabBarInactiveTintColor: "#aaa",
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap = "home";
+          let iconName: keyof typeof Ionicons.glyphMap = "home-outline";
 
           switch (route.name) {
             case "dashboard":
-              iconName = "home";
+              iconName = "home-outline";
+              break;
+            case "To-Do":
+              iconName = "list-outline";
               break;
             case "calendar":
               iconName = "calendar-outline";
               break;
-            case "performancetracker":
-              iconName = "barbell-outline";
-              break;
-            case "weeklytodo":
-              iconName = "checkmark-done-outline"; // this icon isnt displaying properly (need to fix)
-              break;
             case "wellnesslog":
               iconName = "heart-outline";
+              break;
+            case "performancetracker":
+              iconName = "barbell-outline";
               break;
           }
 
@@ -35,13 +35,13 @@ export default function TabsLayout() {
       })}
     >
       <Tabs.Screen name="dashboard" options={{ title: "Dashboard" }} />
+      <Tabs.Screen name="To-Do" options={{ title: "To-Do" }} />
       <Tabs.Screen name="calendar" options={{ title: "Calendar" }} />
+      <Tabs.Screen name="wellnesslog" options={{ title: "Wellness" }} />
       <Tabs.Screen
         name="performancetracker"
         options={{ title: "Performance" }}
       />
-      <Tabs.Screen name="weeklytodo" options={{ title: "Weekly To-Do" }} />
-      <Tabs.Screen name="wellnesslog" options={{ title: "Wellness" }} />
     </Tabs>
   );
 }

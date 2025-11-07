@@ -4,22 +4,23 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { logoutUser } from "../../firebase/authService";
 import { auth, db } from "../../firebase/firebaseConfig";
 import styles from "../../styles/sidenavstyles";
+
+// Import the Wellness Context
+import { WellnessProvider } from "app/context/WellnessContext";
 
 function CustomDrawerContent(props: any) {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
 
-  // Listen for auth changes & load Firestore user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -42,7 +43,9 @@ function CustomDrawerContent(props: any) {
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <Image
-          source={{ uri: "https://via.placeholder.com/100" }}
+          source={{
+            uri: "https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg",
+          }}
           style={styles.avatar}
         />
         <Text style={styles.userName}>
@@ -52,7 +55,7 @@ function CustomDrawerContent(props: any) {
         </Text>
       </View>
 
-      {/*Drawer items (must forward all props) */}
+      {/* Drawer items */}
       <View style={{ flex: 1 }}>
         <DrawerItemList {...props} />
       </View>
@@ -76,67 +79,86 @@ function CustomDrawerContent(props: any) {
 }
 
 export default function PrivateLayout() {
-  const navigation = useNavigation();
-  const userAvatar = "https://via.placeholder.com/100";
+  const userAvatar =
+    "https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg";
 
   return (
-    <Drawer
-      // Properly pass props to custom drawer content
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: "#00194C" },
-        headerTintColor: "#fff",
-        drawerStyle: { backgroundColor: "#111", width: 250 },
-        drawerActiveTintColor: "#4CAF50",
-        drawerInactiveTintColor: "#aaa",
-        drawerLabelStyle: { fontSize: 16 },
-        sceneContainerStyle: { backgroundColor: "#000" },
-        headerLeft: () => (
-          <View style={{ marginLeft: 15, flexDirection: "row" }}>
-            <Image
-              source={{ uri: userAvatar }}
-              style={{
-                width: 35,
-                height: 35,
-                borderRadius: 18,
-                borderWidth: 1,
-                borderColor: "#fff",
-              }}
-            />
-          </View>
-        ),
-      })}
-    >
-      <Drawer.Screen
-        name="(tabs)"
-        options={{
-          drawerLabel: "Dashboard",
-          title: "",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+    // ✅ Wrap the entire Drawer in the WellnessProvider
+    <WellnessProvider>
+      <Drawer
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={({ navigation }) => ({
+          headerStyle: { backgroundColor: "#00194C" },
+          headerTintColor: "#fff",
+          drawerStyle: { backgroundColor: "#111", width: 250 },
+          drawerActiveTintColor: "#4CAF50",
+          drawerInactiveTintColor: "#aaa",
+          drawerLabelStyle: { fontSize: 16 },
+          sceneContainerStyle: { backgroundColor: "#000" },
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.toggleDrawer()} // ✅ Works now
+              style={{ marginLeft: 15 }}
+            >
+              <Image
+                source={{ uri: userAvatar }}
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 18,
+                  borderWidth: 1,
+                  borderColor: "#fff",
+                }}
+              />
+            </TouchableOpacity>
           ),
-        }}
-      />
-      <Drawer.Screen
-        name="settings"
-        options={{
-          drawerLabel: "Settings",
-          title: "",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="(app)"
-        options={{
-          drawerLabel: "Assignments",
-          title: "",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="book-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </Drawer>
+        })}
+      >
+        {/* Drawer items */}
+        <Drawer.Screen
+          name="(tabs)"
+          options={{
+            drawerLabel: "Dashboard",
+            title: "",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Assignments"
+          options={{
+            drawerLabel: "Assignments",
+            title: "",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="book-outline" size={size} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="journal"
+          options={{
+            drawerLabel: "Journal",
+            title: "",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="pencil-outline" size={size} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="settings"
+          options={{
+            drawerLabel: "Settings",
+            title: "",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="settings-outline" size={size} color={color} />
+            ),
+          }}
+        />
+      </Drawer>
+    </WellnessProvider>
   );
 }
