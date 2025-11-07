@@ -46,4 +46,9 @@ app-example
 .env
 .env.*
 env.ts
+firebaseConfig.tsenv.ts
+
+# Ignore sensitive files
+env.ts
 firebaseConfig.ts
+
