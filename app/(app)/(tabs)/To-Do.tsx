@@ -1,44 +1,36 @@
-import { useRouter } from "expo-router";
+import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import styles from "styles/weeklytodoliststyles";
 
-const WeeklyToDo = () => {
-  const router = useRouter();
+const allDays = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
-  // Preloaded weekly tasks
-  const [tasks, setTasks] = useState({
-    Monday: [
-      { id: 1, text: "📚 Assignment: Data Structures Chapter 1", done: false },
-      { id: 2, text: "🏀 Training: Gym session", done: false },
-    ],
-    Tuesday: [
-      { id: 3, text: "📚 Study: Algorithms", done: false },
-      { id: 4, text: "🏀 Team Practice", done: false },
-    ],
-    Wednesday: [
-      { id: 5, text: "📚 Lecture: UI/UX Design", done: false },
-      { id: 6, text: "🛌 Rest/Recovery", done: false },
-    ],
-    Thursday: [
-      { id: 7, text: "📚 Group Project Meeting", done: false },
-      { id: 8, text: "🏀 Shooting Drills", done: false },
-    ],
-    Friday: [
-      { id: 9, text: "📚 Lecture: Software Engineering", done: false },
-      { id: 10, text: "🏀 Game Day!", done: false },
-    ],
-    Saturday: [
-      { id: 11, text: "🏀 Recovery Training", done: false },
-      { id: 12, text: "🧘 Wellness: Meditation", done: false },
-    ],
-    Sunday: [
-      { id: 13, text: "📚 Study: Revision", done: false },
-      { id: 14, text: "🛌 Rest", done: false },
-    ],
+const WeeklyToDo = () => {
+  const [tasks, setTasks] = useState<{
+    [key: string]: { id: number; text: string; done: boolean }[];
+  }>({
+    Monday: [{ id: 1, text: "📚 Assignment: Data Structures", done: false }],
   });
 
-  // Toggle task completion
+  const [newTaskText, setNewTaskText] = useState("");
+  const [newTaskDay, setNewTaskDay] = useState<keyof typeof tasks | string>(
+    "Monday"
+  );
+
   const toggleTask = (day: string, id: number) => {
     setTasks((prev) => ({
       ...prev,
@@ -48,11 +40,54 @@ const WeeklyToDo = () => {
     }));
   };
 
+  const addTask = () => {
+    if (!newTaskText.trim()) return;
+
+    setTasks((prev) => ({
+      ...prev,
+      [newTaskDay]: [
+        ...(prev[newTaskDay] || []),
+        { id: Date.now(), text: newTaskText.trim(), done: false },
+      ],
+    }));
+    setNewTaskText("");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>✅ Weekly To-Do List</Text>
 
-      <ScrollView>
+      {/* Day Picker */}
+      <View style={styles.dayPickerContainer}>
+        <Text style={styles.pickerLabel}>Select Day:</Text>
+        <Picker
+          selectedValue={newTaskDay}
+          style={styles.picker}
+          dropdownIconColor="#fff"
+          onValueChange={(itemValue) => setNewTaskDay(itemValue)}
+        >
+          {allDays.map((day) => (
+            <Picker.Item key={day} label={day} value={day} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* Add Task Card */}
+      <View style={styles.addTaskCard}>
+        <TextInput
+          style={styles.input}
+          placeholder="New task..."
+          placeholderTextColor="#888"
+          value={newTaskText}
+          onChangeText={setNewTaskText}
+        />
+        <TouchableOpacity style={styles.addButton} onPress={addTask}>
+          <Text style={styles.addButtonText}>Add Task</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Task List */}
+      <ScrollView style={{ marginTop: 20 }}>
         {Object.entries(tasks).map(([day, dayTasks]) => (
           <View key={day} style={styles.dayBox}>
             <Text style={styles.dayTitle}>{day}</Text>
@@ -63,9 +98,7 @@ const WeeklyToDo = () => {
                 onPress={() => toggleTask(day, task.id)}
               >
                 <View style={[styles.checkbox, task.done && styles.checkboxDone]} />
-                <Text
-                  style={[styles.taskText, task.done && styles.taskTextDone]}
-                >
+                <Text style={[styles.taskText, task.done && styles.taskTextDone]}>
                   {task.text}
                 </Text>
               </TouchableOpacity>
