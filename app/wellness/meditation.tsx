@@ -48,7 +48,7 @@ export default function MeditationScreen() {
     setLoading(true);
     setError(false);
     try {
-      const items = await fetchMeditations(); // ✅ no args needed
+      const items = await fetchMeditations(); 
       if (!items || !items.length) throw new Error("No items returned");
       setVideos(items);
     } catch (err) {

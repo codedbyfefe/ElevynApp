@@ -1,6 +1,6 @@
-import { WellnessContext } from "app/context/WellnessContext";
+import { useWellness } from "app/context/WellnessContext";
 import { useRouter } from "expo-router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "styles/wellnessstyles";
 
@@ -11,23 +11,20 @@ const WellnessLog = () => {
   const [nutrition, setNutrition] = useState("");
 
   const router = useRouter();
-  const { updateOverview } = useContext(WellnessContext);
+  const { overview, updateOverview } = useWellness();
 
   const handleSaveLog = () => {
-    // Compute overview data
-    const overview = {
+    const data = {
       avgSleep: parseFloat(sleep) || 0,
       avgStress: parseFloat(stress) || 0,
       totalActivity: parseFloat(activity) || 0,
-      latestNutrition: nutrition,
+      latestNutrition: nutrition || "",
     };
 
-    // Update dashboard context
-    updateOverview(overview);
+    updateOverview(data);
 
     alert("Wellness log saved!");
 
-    // Clear inputs
     setSleep("");
     setStress("");
     setActivity("");
@@ -86,7 +83,9 @@ const WellnessLog = () => {
           onPress={() => router.push("/wellness/meditation")}
         >
           <Text style={styles.resourceTitle}>🧘 Guided Meditation</Text>
-          <Text style={styles.resourceText}>Short sessions to reduce stress and improve focus.</Text>
+          <Text style={styles.resourceText}>
+            Short sessions to reduce stress and improve focus.
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -94,7 +93,9 @@ const WellnessLog = () => {
           onPress={() => router.push("/wellness/nutrition")}
         >
           <Text style={styles.resourceTitle}>🥑 Nutrition Tips</Text>
-          <Text style={styles.resourceText}>Learn how to fuel your body for peak performance.</Text>
+          <Text style={styles.resourceText}>
+            Learn how to fuel your body for peak performance.
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
