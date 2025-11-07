@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "styles/wellnessstyles";
@@ -8,15 +9,18 @@ const WellnessLog = () => {
   const [activity, setActivity] = useState("");
   const [nutrition, setNutrition] = useState("");
 
+  const router = useRouter();
+
   const handleSaveLog = () => {
-    // For now, just console log- back end will be added later
     console.log({
       sleep,
       stress,
       activity,
       nutrition,
     });
-    alert("✅ Wellness log saved!");
+
+    alert("Wellness log saved!");
+
     setSleep("");
     setStress("");
     setActivity("");
@@ -38,7 +42,7 @@ const WellnessLog = () => {
           onChangeText={setSleep}
         />
 
-        <Text style={styles.label}>😰 Stress Level (1-10)</Text>
+        <Text style={styles.label}>😰 Stress Level (1–10)</Text>
         <TextInput
           style={styles.input}
           placeholder="e.g. 5"
@@ -72,20 +76,32 @@ const WellnessLog = () => {
         {/* Wellness Resources */}
         <Text style={styles.sectionTitle}>📚 Wellness Resources</Text>
 
-        <View style={styles.resourceCard}>
+        {/* Guided Meditation */}
+        <TouchableOpacity
+          style={styles.resourceCard}
+          onPress={() => router.push("/(app)/wellness/meditation")}
+        >
           <Text style={styles.resourceTitle}>🧘 Guided Meditation</Text>
           <Text style={styles.resourceText}>Short sessions to reduce stress and improve focus.</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.resourceCard}>
+        {/* Nutrition */}
+        <TouchableOpacity
+          style={styles.resourceCard}
+          onPress={() => router.push("/(app)/wellness/nutrition")}
+        >
           <Text style={styles.resourceTitle}>🥑 Nutrition Tips</Text>
           <Text style={styles.resourceText}>Learn how to fuel your body for peak performance.</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.resourceCard}>
-          <Text style={styles.resourceTitle}>🛌 Sleep Hygiene</Text>
-          <Text style={styles.resourceText}>Improve recovery with better sleep habits.</Text>
-        </View>
+        {/* Journal */}
+        <TouchableOpacity
+          style={styles.resourceCard}
+          onPress={() => router.push("/(app)/wellness/journal")}
+        >
+          <Text style={styles.resourceTitle}>📔 Journal</Text>
+          <Text style={styles.resourceText}>Improve Mindfulness by writing down what's on your mind.</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

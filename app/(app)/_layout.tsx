@@ -1,45 +1,63 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import type { DrawerNavigationProp } from "@react-navigation/drawer";
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { Drawer } from "expo-router/drawer";
-import { Image, Pressable, Text, View } from "react-native";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Image, Text, View } from "react-native";
+import { logoutUser } from "../../firebase/authService";
+import { auth, db } from "../../firebase/firebaseConfig";
 import styles from "../../styles/sidenavstyles";
-
-type DrawerParamList = {
-  "(tabs)": undefined;
-  settings: undefined;
-};
 
 function CustomDrawerContent(props: any) {
   const router = useRouter();
-  const user = {
-    name: "Jane Doe",
-    avatar: "https://via.placeholder.com/100", //placeholder image
-  };
+  const [userData, setUserData] = useState<any>(null);
+
+  // ✅ Listen for auth changes & load Firestore user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) setUserData(userDoc.data());
+        } catch (err) {
+          console.error("Error fetching user:", err);
+        }
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <DrawerContentScrollView
       {...props}
       contentContainerStyle={{ flexGrow: 1, backgroundColor: "#111" }}
     >
-      {/*Profile Section */}
+      {/* Profile Section */}
       <View style={styles.profileSection}>
-        <Image source={{ uri: user.avatar }} style={styles.avatar} />
-        <Text style={styles.userName}>{user.name}</Text>
+        <Image
+          source={{ uri: "https://via.placeholder.com/100" }}
+          style={styles.avatar}
+        />
+        <Text style={styles.userName}>
+          {userData
+            ? `${userData.name} ${userData.surname}`
+            : "Loading user..."}
+        </Text>
       </View>
 
-      {/*Drawer Items */}
+      {/* ✅ Drawer items (must forward all props) */}
       <View style={{ flex: 1 }}>
         <DrawerItemList {...props} />
       </View>
 
-      {/*Logout */}
+      {/* Logout */}
       <View style={styles.logoutSection}>
         <DrawerItem
           label="Logout"
@@ -47,24 +65,23 @@ function CustomDrawerContent(props: any) {
           icon={({ size }) => (
             <Ionicons name="log-out-outline" size={size} color="#fff" />
           )}
-          onPress={() => router.replace("/login")}
+          onPress={async () => {
+            await logoutUser();
+            router.replace("/login");
+          }}
         />
       </View>
     </DrawerContentScrollView>
   );
 }
 
-
 export default function PrivateLayout() {
-  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-  const userAvatar = "https://via.placeholder.com/100"; //placeholder image
-
-  const toggleDrawer = () => {
-    navigation.dispatch(DrawerActions.toggleDrawer());
-  };
+  const navigation = useNavigation();
+  const userAvatar = "https://via.placeholder.com/100";
 
   return (
     <Drawer
+      // ✅ Properly pass props to custom drawer content
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: "#00194C" },
@@ -75,10 +92,7 @@ export default function PrivateLayout() {
         drawerLabelStyle: { fontSize: 16 },
         sceneContainerStyle: { backgroundColor: "#000" },
         headerLeft: () => (
-          <Pressable
-            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-            style={{ marginLeft: 15, flexDirection: "row" }}
-          >
+          <View style={{ marginLeft: 15, flexDirection: "row" }}>
             <Image
               source={{ uri: userAvatar }}
               style={{
@@ -89,7 +103,7 @@ export default function PrivateLayout() {
                 borderColor: "#fff",
               }}
             />
-          </Pressable>
+          </View>
         ),
       })}
     >
@@ -97,7 +111,7 @@ export default function PrivateLayout() {
         name="(tabs)"
         options={{
           drawerLabel: "Dashboard",
-          title: "",                 // keep this empty so it doesn't display in the header
+          title: "",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -113,11 +127,11 @@ export default function PrivateLayout() {
           ),
         }}
       />
-     <Drawer.Screen
+      <Drawer.Screen
         name="(app)"
         options={{
           drawerLabel: "Assignments",
-          title: "",                
+          title: "",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="book-outline" size={size} color={color} />
           ),
@@ -126,4 +140,3 @@ export default function PrivateLayout() {
     </Drawer>
   );
 }
-

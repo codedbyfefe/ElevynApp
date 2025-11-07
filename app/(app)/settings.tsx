@@ -1,5 +1,8 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "firebase/firebaseConfig"; // adjust path if needed
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import {
   Image,
   Modal,
@@ -15,24 +18,49 @@ import styles from "styles/settingsstyles";
 const SettingsScreen = () => {
   const router = useRouter();
 
-  // State
+  // 🔹 User data from Firestore
+  const [userData, setUserData] = useState<any>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  // Other state
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(true);
   const [notifications, setNotifications] = useState(true);
   const [reminders, setReminders] = useState(false);
 
-  // Form state (fake input handling)
+  // Demo form state
   const [sport, setSport] = useState("Basketball");
   const [major, setMajor] = useState("Computer Science");
   const [selectedAvatar, setSelectedAvatar] = useState("https://via.placeholder.com/100");
 
-  // Avatar options (demo images)
+  // Avatar options
   const avatarOptions = [
     "https://via.placeholder.com/100/FF5733",
     "https://via.placeholder.com/100/33FF57",
     "https://via.placeholder.com/100/3357FF",
     "https://via.placeholder.com/100/FFFF33",
   ];
+
+  // 🔹 Load user data on mount
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            setUserData(userDoc.data());
+          }
+        } catch (error) {
+          console.error("Error fetching user:", error);
+        } finally {
+          setLoadingUser(false);
+        }
+      } else {
+        setLoadingUser(false);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <View
@@ -48,7 +76,13 @@ const SettingsScreen = () => {
         <View style={styles.profileCard}>
           <Image source={{ uri: selectedAvatar }} style={styles.avatar} />
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>John Doe</Text>
+            <Text style={styles.profileName}>
+              {loadingUser
+                ? "Loading..."
+                : userData
+                ? `${userData.name} ${userData.surname}`
+                : "Unknown User"}
+            </Text>
             <Text style={styles.profileDetails}>🏀 Sport: {sport}</Text>
             <Text style={styles.profileDetails}>🎓 Major: {major}</Text>
           </View>
@@ -118,7 +152,13 @@ const SettingsScreen = () => {
             {activeModal === "avatar" && (
               <>
                 <Text style={styles.modalTitle}>Select an Avatar</Text>
-                <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                  }}
+                >
                   {avatarOptions.map((uri, idx) => (
                     <TouchableOpacity
                       key={idx}
@@ -129,7 +169,10 @@ const SettingsScreen = () => {
                         source={{ uri }}
                         style={[
                           styles.avatar,
-                          { borderWidth: selectedAvatar === uri ? 2 : 0, borderColor: "#A6E1FA" },
+                          {
+                            borderWidth: selectedAvatar === uri ? 2 : 0,
+                            borderColor: "#A6E1FA",
+                          },
                         ]}
                       />
                     </TouchableOpacity>
@@ -172,7 +215,10 @@ const SettingsScreen = () => {
                 <Text style={styles.modalTitle}>Notification Preferences</Text>
                 <View style={styles.settingOptionRow}>
                   <Text style={styles.optionText}>Enable Notifications</Text>
-                  <Switch value={notifications} onValueChange={setNotifications} />
+                  <Switch
+                    value={notifications}
+                    onValueChange={setNotifications}
+                  />
                 </View>
               </>
             )}
