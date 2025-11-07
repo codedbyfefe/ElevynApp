@@ -1,3 +1,4 @@
+import { usePerformance } from "app/context/PerformanceContext";
 import { useState } from "react";
 import {
   Dimensions,
@@ -13,33 +14,9 @@ import { VictoryAxis, VictoryBar, VictoryChart } from "victory-native";
 
 const { width } = Dimensions.get("window");
 
-// Type definitions
-type GameStat = {
-  id: number;
-  points: number;
-  rebounds: number;
-  assists: number;
-};
-
-type Workout = {
-  id: number;
-  name: string;
-  duration: number;
-  load: number;
-};
-
 export default function PerformanceTracker() {
-  const [gameStats, setGameStats] = useState<GameStat[]>([
-    { id: 1, points: 20, rebounds: 6, assists: 5 },
-    { id: 2, points: 15, rebounds: 4, assists: 3 },
-  ]);
+  const { gameStats, workouts, addGame, addWorkout } = usePerformance();
 
-  const [workouts, setWorkouts] = useState<Workout[]>([
-    { id: 1, name: "Leg Day", duration: 60, load: 250 },
-    { id: 2, name: "Conditioning Run", duration: 45, load: 200 },
-  ]);
-
-  // Inputs
   const [newWorkout, setNewWorkout] = useState("");
   const [duration, setDuration] = useState("");
 
@@ -47,28 +24,20 @@ export default function PerformanceTracker() {
   const [newGameRebounds, setNewGameRebounds] = useState("");
   const [newGameAssists, setNewGameAssists] = useState("");
 
-  // Add workout
   const handleAddWorkout = () => {
     if (!newWorkout || !duration) return;
-    const load = Math.floor(parseInt(duration, 10) * 4.5);
-    setWorkouts((prev) => [
-      { id: Date.now(), name: newWorkout, duration: parseInt(duration, 10), load },
-      ...prev,
-    ]);
+    addWorkout({ name: newWorkout, duration: parseInt(duration, 10) });
     setNewWorkout("");
     setDuration("");
   };
 
-  // Add game
   const handleAddGame = () => {
     if (!newGamePoints || !newGameRebounds || !newGameAssists) return;
-    const newGame: GameStat = {
-      id: gameStats.length + 1,
+    addGame({
       points: parseInt(newGamePoints, 10),
       rebounds: parseInt(newGameRebounds, 10),
       assists: parseInt(newGameAssists, 10),
-    };
-    setGameStats((prev) => [newGame, ...prev]);
+    });
     setNewGamePoints("");
     setNewGameRebounds("");
     setNewGameAssists("");

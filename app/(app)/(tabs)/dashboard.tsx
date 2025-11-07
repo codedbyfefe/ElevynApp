@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { usePerformance } from "app/context/PerformanceContext"; // ✅ use merged assignments context
 import { WellnessContext } from "app/context/WellnessContext";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
@@ -9,16 +10,20 @@ import styles from "styles/dashboardstyles";
 const Dashboard = () => {
   const router = useRouter();
   const { overview: wellnessOverview } = useContext(WellnessContext);
+  const { assignments, workouts, gameStats } = usePerformance(); // ✅ assignments array
 
-  const academicTasks = { done: 5, total: 7 };
-  const athleticEvents = { trainings: 3, games: 1 };
-  const academicProgress = academicTasks.done / academicTasks.total;
-  const athleticProgress =
-    (athleticEvents.trainings + athleticEvents.games) / 7;
+  // Compute academic tasks dynamically from assignments
+  const academicDone = assignments.filter(a => a.completed).length;
+  const academicTotal = assignments.length;
+  const academicProgress = academicTotal > 0 ? academicDone / academicTotal : 0;
 
+  // Athletics progress
+  const athleticSessions = workouts.length + gameStats.length;
+  const athleticProgress = athleticSessions / 7; // assuming 7 sessions/week baseline
+
+  // Balance message
   const balanceMessage =
-    athleticEvents.trainings + athleticEvents.games >
-    (academicTasks.done / academicTasks.total) * 7
+    athleticSessions > academicDone
       ? "⚠️ You’ve logged more hours on sport than study — consider rebalancing."
       : "✅ Great balance between academics and athletics this week!";
 
@@ -34,7 +39,7 @@ const Dashboard = () => {
             <Text style={styles.cardTitle}>Academics</Text>
           </View>
           <Text style={styles.value}>
-            {academicTasks.done}/{academicTasks.total}
+            {academicDone}/{academicTotal}
           </Text>
           <Progress.Bar
             progress={academicProgress}
@@ -52,9 +57,7 @@ const Dashboard = () => {
             <Ionicons name="barbell-outline" size={22} color="#10B981" />
             <Text style={styles.cardTitle}>Athletics</Text>
           </View>
-          <Text style={styles.value}>
-            {athleticEvents.trainings + athleticEvents.games}
-          </Text>
+          <Text style={styles.value}>{athleticSessions}</Text>
           <Progress.Bar
             progress={athleticProgress}
             color="#10B981"

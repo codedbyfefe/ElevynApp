@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { usePerformance } from "app/context/PerformanceContext"; // ✅ shared context
 import { useState } from "react";
 import {
   FlatList,
@@ -6,66 +7,32 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import styles from "../../styles/assignmentstyles";
 
-interface Assignment {
-  id: string;
-  title: string;
-  subject: string;
-  dueDate: string;
-  completed: boolean;
-}
-
 export default function Assignments() {
-  const [assignments, setAssignments] = useState<Assignment[]>([
-    {
-      id: "1",
-      title: "Essay on Sports Nutrition",
-      subject: "Sports Science",
-      dueDate: "2025-10-20",
-      completed: false,
-    },
-    {
-      id: "2",
-      title: "Data Analysis Project",
-      subject: "Statistics",
-      dueDate: "2025-10-15",
-      completed: true,
-    },
-  ]);
+  const {
+    assignments,
+    addAssignment,
+    toggleAssignmentCompletion,
+  } = usePerformance();
 
+  const [filter, setFilter] = useState<"all" | "upcoming" | "overdue">("all");
   const [modalVisible, setModalVisible] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newSubject, setNewSubject] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
 
-  const toggleComplete = (id: string) => {
-    setAssignments((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
-  };
+  const now = new Date();
 
-  const addAssignment = () => {
-    if (!newTitle.trim() || !newSubject.trim() || !newDueDate.trim()) return;
-
-    const newItem: Assignment = {
-      id: Date.now().toString(),
-      title: newTitle,
-      subject: newSubject,
-      dueDate: newDueDate,
-      completed: false,
-    };
-
-    setAssignments((prev) => [...prev, newItem]);
-    setModalVisible(false);
-    setNewTitle("");
-    setNewSubject("");
-    setNewDueDate("");
-  };
+  // ⏰ Filter logic
+  const filteredAssignments = assignments.filter((a) => {
+    const due = new Date(a.dueDate);
+    if (filter === "upcoming") return due >= now && !a.completed;
+    if (filter === "overdue") return due < now && !a.completed;
+    return true; // all
+  });
 
   const completionRate =
     assignments.length > 0
@@ -75,29 +42,69 @@ export default function Assignments() {
         )
       : 0;
 
+  const toggleComplete = (id: number) => {
+    toggleAssignmentCompletion(id);
+  };
+
+  const addNewAssignment = () => {
+    if (!newTitle.trim() || !newSubject.trim() || !newDueDate.trim()) return;
+
+    addAssignment({
+      title: newTitle,
+      completed: false,
+      subject: newSubject,
+      dueDate: newDueDate,
+    });
+
+    setModalVisible(false);
+    setNewTitle("");
+    setNewSubject("");
+    setNewDueDate("");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>📚 Assignments</Text>
+
+      {/* Filter Tabs */}
+      <View style={styles.filterContainer}>
+        {["all", "upcoming", "overdue"].map((type) => (
+          <TouchableOpacity
+            key={type}
+            onPress={() => setFilter(type as any)}
+            style={[
+              styles.filterButton,
+              filter === type && styles.filterButtonActive,
+            ]}
+          >
+            <Text
+              style={[
+                styles.filterText,
+                filter === type && styles.filterTextActive,
+              ]}
+            >
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {/* Progress Tracker */}
       <View style={styles.progressContainer}>
         <Text style={styles.progressText}>Completion: {completionRate}%</Text>
         <View style={styles.progressBar}>
           <View
-            style={[
-              styles.progressFill,
-              { width: `${completionRate}%` },
-            ]}
+            style={[styles.progressFill, { width: `${completionRate}%` }]}
           />
         </View>
       </View>
 
       {/* Assignment List */}
       <FlatList
-        data={assignments.sort(
+        data={filteredAssignments.sort(
           (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[
@@ -110,7 +117,10 @@ export default function Assignments() {
               <Text
                 style={[
                   styles.title,
-                  { textDecorationLine: item.completed ? "line-through" : "none" },
+                  {
+                    textDecorationLine: item.completed ? "line-through" : "none",
+                    color: item.completed ? "#4CAF50" : "#fff",
+                  },
                 ]}
               >
                 {item.title}
@@ -178,7 +188,7 @@ export default function Assignments() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.saveButton}
-                onPress={addAssignment}
+                onPress={addNewAssignment}
               >
                 <Text style={styles.saveText}>Save</Text>
               </TouchableOpacity>

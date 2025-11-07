@@ -124,4 +124,33 @@ export default StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
   },
+
+  /* --- FILTER STYLES --- */
+  filterContainer: {
+    flexDirection: "row",
+    marginBottom: 12,
+  },
+  filterButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: "#333",
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  filterButtonActive: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: "#4CAF50",
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  filterText: {
+    color: "#fff",
+    fontSize: 14,
+  },
+  filterTextActive: {
+    color: "#111",
+    fontSize: 14,
+    fontWeight: "600",
+  },
 });
