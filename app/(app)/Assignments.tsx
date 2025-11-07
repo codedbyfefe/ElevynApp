@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { usePerformance } from "app/context/PerformanceContext"; // ✅ shared context
 import { useState } from "react";
 import {
   FlatList,
@@ -9,14 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import styles from "../../styles/assignmentstyles";
+import { styles } from "styles/assignmentstyles";
+import { usePerformance } from "../context/PerformanceContext";
 
 export default function Assignments() {
-  const {
-    assignments,
-    addAssignment,
-    toggleAssignmentCompletion,
-  } = usePerformance();
+  const { assignments, addAssignment, toggleAssignmentCompletion } = usePerformance();
 
   const [filter, setFilter] = useState<"all" | "upcoming" | "overdue">("all");
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,36 +22,31 @@ export default function Assignments() {
 
   const now = new Date();
 
-  // ⏰ Filter logic
+  // Filter logic
   const filteredAssignments = assignments.filter((a) => {
     const due = new Date(a.dueDate);
     if (filter === "upcoming") return due >= now && !a.completed;
     if (filter === "overdue") return due < now && !a.completed;
-    return true; // all
+    return true;
   });
 
+  // Progress tracker
   const completionRate =
     assignments.length > 0
       ? Math.round(
-          (assignments.filter((a) => a.completed).length / assignments.length) *
-            100
+          (assignments.filter((a) => a.completed).length / assignments.length) * 100
         )
       : 0;
 
-  const toggleComplete = (id: number) => {
-    toggleAssignmentCompletion(id);
-  };
-
+  // Add assignment
   const addNewAssignment = () => {
     if (!newTitle.trim() || !newSubject.trim() || !newDueDate.trim()) return;
-
     addAssignment({
       title: newTitle,
       completed: false,
       subject: newSubject,
       dueDate: newDueDate,
     });
-
     setModalVisible(false);
     setNewTitle("");
     setNewSubject("");
@@ -93,25 +84,23 @@ export default function Assignments() {
       <View style={styles.progressContainer}>
         <Text style={styles.progressText}>Completion: {completionRate}%</Text>
         <View style={styles.progressBar}>
-          <View
-            style={[styles.progressFill, { width: `${completionRate}%` }]}
-          />
+          <View style={[styles.progressFill, { width: `${completionRate}%` }]} />
         </View>
       </View>
 
       {/* Assignment List */}
       <FlatList
-        data={filteredAssignments.sort(
+        data={[...filteredAssignments].sort(
           (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[
               styles.card,
               { borderColor: item.completed ? "#4CAF50" : "#555" },
             ]}
-            onPress={() => toggleComplete(item.id)}
+            onPress={() => toggleAssignmentCompletion(item.id)}
           >
             <View style={styles.cardContent}>
               <Text
@@ -135,6 +124,10 @@ export default function Assignments() {
             />
           </TouchableOpacity>
         )}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>No assignments yet 🎓</Text>
+        }
+        showsVerticalScrollIndicator={false}
       />
 
       {/* Add Button */}

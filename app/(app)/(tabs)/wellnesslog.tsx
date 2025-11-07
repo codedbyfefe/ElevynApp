@@ -83,7 +83,7 @@ const WellnessLog = () => {
 
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("./meditation")}
+          onPress={() => router.push("/wellness/meditation")}
         >
           <Text style={styles.resourceTitle}>🧘 Guided Meditation</Text>
           <Text style={styles.resourceText}>Short sessions to reduce stress and improve focus.</Text>
@@ -91,7 +91,7 @@ const WellnessLog = () => {
 
         <TouchableOpacity
           style={styles.resourceCard}
-          onPress={() => router.push("./nutrition")}
+          onPress={() => router.push("/wellness/nutrition")}
         >
           <Text style={styles.resourceTitle}>🥑 Nutrition Tips</Text>
           <Text style={styles.resourceText}>Learn how to fuel your body for peak performance.</Text>

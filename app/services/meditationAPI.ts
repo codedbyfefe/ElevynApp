@@ -1,3 +1,4 @@
+// app/services/meditationAPI.ts
 export const fetchMeditations = async () => {
   const API_KEY = process.env.EXPO_PUBLIC_YOUTUBE_API_KEY;
   const query = "guided meditation for athletes focus relaxation 10 minutes";

@@ -10,7 +10,7 @@ import styles from "styles/dashboardstyles";
 const Dashboard = () => {
   const router = useRouter();
   const { overview: wellnessOverview } = useContext(WellnessContext);
-  const { assignments, workouts, gameStats } = usePerformance(); // ✅ assignments array
+  const { assignments, workouts, gameStats } = usePerformance(); // assignments array
 
   // Compute academic tasks dynamically from assignments
   const academicDone = assignments.filter(a => a.completed).length;
@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   // Balance message
   const balanceMessage =
-    athleticSessions > academicDone
+    athleticSessions >= academicDone
       ? "⚠️ You’ve logged more hours on sport than study — consider rebalancing."
       : "✅ Great balance between academics and athletics this week!";
 
@@ -143,7 +143,7 @@ const Dashboard = () => {
         </View>
         <View style={styles.upcomingItem}>
           <Text style={styles.upcomingTitle}>Training Session</Text>
-          <Text style={styles.upcomingTime}>Tomorrow • 08:00</Text>
+          <Text style={styles.upcomingTime}>Tomorrow • 11:00</Text>
         </View>
         <View style={styles.upcomingItem}>
           <Text style={styles.upcomingTitle}>Assignment Due</Text>

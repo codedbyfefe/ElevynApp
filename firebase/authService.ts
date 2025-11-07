@@ -4,23 +4,29 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  User
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 
-// Register new user and store extra info in Firestore
+let authChangeListener: ((user: User | null) => void) | null = null;
+export const setAuthChangeListener = (callback: (user: User | null) => void) => {
+  authChangeListener = callback;
+};
+
+// Internal function to trigger listener
+const triggerAuthChange = (user: User | null) => {
+  if (authChangeListener) authChangeListener(user);
+};
+
+// Register new user
 export const registerUser = async (name: string, surname: string, email: string, password: string) => {
   try {
-    // Create user in Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Update display name in Firebase Auth
-    await updateProfile(user, {
-      displayName: `${name} ${surname}`,
-    });
+    await updateProfile(user, { displayName: `${name} ${surname}` });
 
-    // Save user info in Firestore
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       name,
@@ -28,6 +34,8 @@ export const registerUser = async (name: string, surname: string, email: string,
       email,
       createdAt: new Date().toISOString(),
     });
+
+    triggerAuthChange(user); // notify listeners
 
     return user;
   } catch (error) {
@@ -40,7 +48,9 @@ export const registerUser = async (name: string, surname: string, email: string,
 export const loginUser = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    const user = userCredential.user;
+    triggerAuthChange(user); // notify listeners
+    return user;
   } catch (error) {
     console.error("Login error:", error);
     throw error;
@@ -51,24 +61,9 @@ export const loginUser = async (email: string, password: string) => {
 export const logoutUser = async () => {
   try {
     await signOut(auth);
+    triggerAuthChange(null); // notify listeners
   } catch (error) {
     console.error("Logout error:", error);
-    throw error;
-  }
-};
-
-// Fetch user details from Firestore
-export const getUserProfile = async (uid: string) => {
-  try {
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      throw new Error("User profile not found");
-    }
-  } catch (error) {
-    console.error("Get user profile error:", error);
     throw error;
   }
 };
