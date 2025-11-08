@@ -6,7 +6,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#111315", // dark background
+    backgroundColor: "#F8FAFC", // dashboard background
   },
   logo: {
     width: 120,
@@ -17,30 +17,38 @@ export default StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#FFFFFF",
+    color: "#1E293B", // dashboard header color
     marginBottom: 10,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
-    color: "#A7A9AB",
+    color: "#475569", // dashboard subtext color
     textAlign: "center",
     marginBottom: 40,
   },
   primaryButton: {
-    backgroundColor: "#0E6BA8", // blue tone
+    backgroundColor: "#4F46E5", // dashboard accent color
     paddingVertical: 14,
     paddingHorizontal: 60,
     borderRadius: 10,
     marginBottom: 15,
+    alignItems: "center",
   },
   secondaryButton: {
-    backgroundColor: "#001C55", // darker navy
+    backgroundColor: "#E2E8F0", // light gray dashboard tone
     paddingVertical: 14,
     paddingHorizontal: 60,
     borderRadius: 10,
+    alignItems: "center",
   },
-  buttonText: {
+  primaryText: {
     color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  secondaryText: {
+    color: "#1E293B", // dark text on light button
     fontSize: 16,
     fontWeight: "600",
   },

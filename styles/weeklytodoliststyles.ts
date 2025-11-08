@@ -4,45 +4,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F8FAFC", // match dashboard
-    padding: 20,
+    padding: 16,
     paddingBottom: 40,
   },
   header: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#1E293B", // match dashboard header color
+    color: "#1E293B",
     textAlign: "center",
     marginBottom: 20,
   },
   dayPickerContainer: {
     marginVertical: 10,
-    padding: 10,
-    backgroundColor: "#FFFFFF",
+    padding: 12,
+    backgroundColor: "#FFFFFF", // light card style
     borderRadius: 12,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
   pickerLabel: {
-    color: "#475569",
-    marginBottom: 5,
     fontWeight: "500",
+    marginBottom: 5,
+    color: "#334155",
   },
   picker: {
     width: "100%",
-    color: "#0F172A",
-    backgroundColor: "#F1F5F9",
+    backgroundColor: "#F1F5F9", // subtle card inside
     borderRadius: 8,
-    padding: 8,
+    color: "#0F172A", // text color for iOS and Android selected item
   },
   addTaskCard: {
     backgroundColor: "#FFFFFF",
-    padding: 15,
+    padding: 16,
     borderRadius: 12,
     marginTop: 10,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
@@ -51,10 +50,9 @@ const styles = StyleSheet.create({
     color: "#0F172A",
     padding: 10,
     borderRadius: 8,
-    marginBottom: 10,
   },
   addButton: {
-    backgroundColor: "#4F46E5", // dashboard accent color
+    backgroundColor: "#4F46E5", // match dashboard primary color
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -63,28 +61,28 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
-    fontWeight: "700",
+    fontWeight: "bold",
   },
   dayBox: {
     marginBottom: 15,
     backgroundColor: "#FFFFFF",
     borderRadius: 12,
-    padding: 10,
+    padding: 12,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
   dayTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#334155", // dashboard card title color
+    color: "#0F172A",
     marginBottom: 8,
   },
   taskRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 6,
   },
   checkbox: {
     width: 20,
@@ -95,18 +93,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkboxDone: {
-    backgroundColor: "#4F46E5", // match dashboard accent
+    backgroundColor: "#4F46E5",
     borderColor: "#4F46E5",
   },
   taskText: {
     color: "#0F172A",
-    fontSize: 14,
   },
   taskTextDone: {
     textDecorationLine: "line-through",
-    color: "#94A3B8", // muted color for done tasks
-    fontSize: 14,
+    color: "#94A3B8",
   },
 });
 
-export default styles; 
+export default styles;

@@ -1,7 +1,8 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Button, Text, TextInput, View } from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { loginUser } from "../firebase/authService";
+import styles from "../styles/loginstyles";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -20,26 +21,37 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text>Email</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter email"
-        autoCapitalize="none"
-      />
+    <View style={styles.container}>
+      <Text style={styles.header}>Login</Text>
 
-      <Text>Password</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter password"
-        secureTextEntry
-      />
+      <View style={styles.inputCard}>
+        <Text>Email</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Enter email"
+          autoCapitalize="none"
+        />
 
-      <Button title="Login" onPress={handleLogin} />
+        <Text>Password</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter password"
+          secureTextEntry
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.registerText}>Don't have an account?</Text>
+      <TouchableOpacity onPress={() => router.push("/register")}>
+        <Text style={styles.registerLink}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }

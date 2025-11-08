@@ -98,7 +98,7 @@ export default function Assignments() {
           <TouchableOpacity
             style={[
               styles.card,
-              { borderColor: item.completed ? "#4CAF50" : "#555" },
+              { borderColor: item.completed ? "#4CAF50" : "#262525ff" },
             ]}
             onPress={() => toggleAssignmentCompletion(item.id)}
           >
@@ -108,7 +108,7 @@ export default function Assignments() {
                   styles.title,
                   {
                     textDecorationLine: item.completed ? "line-through" : "none",
-                    color: item.completed ? "#4CAF50" : "#fff",
+                    color: item.completed ? "#4CAF50" : "#262525ff",
                   },
                 ]}
               >
@@ -120,7 +120,7 @@ export default function Assignments() {
             <Ionicons
               name={item.completed ? "checkmark-circle" : "time-outline"}
               size={24}
-              color={item.completed ? "#4CAF50" : "#FFD700"}
+              color={item.completed ? "#4CAF50" : "#ff5900ff"}
             />
           </TouchableOpacity>
         )}

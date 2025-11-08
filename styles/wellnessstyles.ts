@@ -3,39 +3,40 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F9FA",
+    backgroundColor: "#F8FAFC", // same as dashboard
   },
   scrollContent: {
-    padding: 20,
+    padding: 16,
     paddingBottom: 100,
   },
   header: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "700",
     marginBottom: 20,
-    color: "#1C2541",
+    color: "#1E293B", // same as dashboard header
     textAlign: "center",
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
     marginTop: 10,
     marginBottom: 5,
-    color: "#3A506B",
+    color: "#475569", // matches metricLabel
   },
   input: {
     borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 10,
+    borderColor: "#E2E8F0", // subtle border like dashboard cards
+    borderRadius: 12,
     padding: 12,
     fontSize: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF", // card style
     marginBottom: 15,
+    color: "#0F172A",
   },
   saveButton: {
-    backgroundColor: "#3A506B",
+    backgroundColor: "#6366F1", // same as add buttons elsewhere
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     marginTop: 10,
     alignItems: "center",
   },
@@ -45,27 +46,30 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     marginTop: 30,
     marginBottom: 15,
-    color: "#1C2541",
+    color: "#1E293B", // dashboard card title color
   },
   resourceCard: {
-    backgroundColor: "#FFFFFF",
-    padding: 15,
+    backgroundColor: "#FFFFFF", // card style
+    padding: 16,
     borderRadius: 12,
     marginBottom: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
     elevation: 2,
   },
   resourceTitle: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "600",
     marginBottom: 5,
-    color: "#3A506B",
+    color: "#334155", // dashboard cardTitle color
   },
   resourceText: {
     fontSize: 14,
-    color: "#5C5C5C",
+    color: "#64748B", // dashboard subText color
   },
 });

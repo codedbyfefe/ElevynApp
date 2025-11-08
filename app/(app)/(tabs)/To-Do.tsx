@@ -60,16 +60,16 @@ const WeeklyToDo = () => {
       {/* Day Picker */}
       <View style={styles.dayPickerContainer}>
         <Text style={styles.pickerLabel}>Select Day:</Text>
-        <Picker
-          selectedValue={newTaskDay}
-          style={styles.picker}
-          dropdownIconColor="#fff"
-          onValueChange={(itemValue) => setNewTaskDay(itemValue)}
-        >
-          {allDays.map((day) => (
-            <Picker.Item key={day} label={day} value={day} />
-          ))}
-        </Picker>
+      <Picker
+  selectedValue={newTaskDay}
+  style={styles.picker}
+  dropdownIconColor="#0F172A"
+  onValueChange={(itemValue) => setNewTaskDay(itemValue)}
+>
+  {allDays.map((day) => (
+    <Picker.Item key={day} label={day} value={day} color="#0F172A" />
+  ))}
+</Picker>
       </View>
 
       {/* Add Task Card */}

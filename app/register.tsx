@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Button, Text, TextInput, View } from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import styles from "styles/registerstyles"; // import styles
 import { registerUser } from "../firebase/authService";
 
 export default function RegisterScreen() {
@@ -26,42 +27,53 @@ export default function RegisterScreen() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text>Name</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={name}
-        onChangeText={setName}
-        placeholder="Enter first name"
-      />
+    <View style={styles.container}>
+      <Text style={styles.header}>Create Account</Text>
 
-      <Text>Surname</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={surname}
-        onChangeText={setSurname}
-        placeholder="Enter surname"
-      />
+      <View style={styles.inputCard}>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          placeholder="First Name"
+          placeholderTextColor="#888"
+        />
+        <TextInput
+          style={styles.input}
+          value={surname}
+          onChangeText={setSurname}
+          placeholder="Surname"
+          placeholderTextColor="#888"
+        />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email"
+          placeholderTextColor="#888"
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          placeholderTextColor="#888"
+          secureTextEntry
+        />
+      </View>
 
-      <Text>Email</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter email"
-        autoCapitalize="none"
-      />
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
 
-      <Text>Password</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter password"
-        secureTextEntry
-      />
-
-      <Button title="Register" onPress={handleRegister} />
+      <TouchableOpacity
+        style={styles.loginLink}
+        onPress={() => router.replace("/login")}
+      >
+        <Text style={styles.loginText}>Already have an account? Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }

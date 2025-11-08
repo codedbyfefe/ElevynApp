@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { usePerformance } from "src/context/PerformanceContext";
-import styles from "styles/perfromancetrackerstyles";
+import styles from "styles/performancetrackerstyles";
 import { VictoryAxis, VictoryBar, VictoryChart } from "victory-native";
 
 const { width } = Dimensions.get("window");
@@ -155,3 +155,4 @@ export default function PerformanceTracker() {
     />
   );
 }
+

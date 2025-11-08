@@ -1,41 +1,61 @@
 import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#F8FAFC", // dashboard background
     padding: 20,
-    backgroundColor: "#111315",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 28,
+  header: {
+    fontSize: 22,
     fontWeight: "700",
-    color: "#FFFFFF",
-    marginBottom: 30,
+    color: "#1E293B", // dashboard header color
     textAlign: "center",
+    marginBottom: 30,
+  },
+  inputCard: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
   },
   input: {
-    backgroundColor: "#1D2D44",
-    color: "#FFFFFF",
-    padding: 14,
+    backgroundColor: "#F1F5F9",
+    color: "#0F172A",
+    padding: 12,
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   button: {
-    backgroundColor: "#0E6BA8",
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: "#4F46E5", // dashboard accent
+    paddingVertical: 12,
+    borderRadius: 10,
     alignItems: "center",
-    marginBottom: 20,
+    marginTop: 10,
   },
   buttonText: {
     color: "#FFFFFF",
-    fontSize: 16,
     fontWeight: "600",
+    fontSize: 16,
   },
-  link: {
-    color: "#A6E1FA",
+  registerText: {
+    fontSize: 14,
+    color: "#475569", // dashboard subtext color
     textAlign: "center",
     marginTop: 10,
   },
+  registerLink: {
+    fontSize: 14,
+    color: "#4F46E5", // dashboard accent color
+    textAlign: "center",
+    fontWeight: "600",
+    marginTop: 4,
+  },
 });
+
+export default styles;

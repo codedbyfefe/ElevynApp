@@ -3,14 +3,15 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0D0D0D",
+    backgroundColor: "#F8F9FA", // dashboard background
     padding: 20,
   },
   header: {
     fontSize: 26,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: "700",
+    color: "#1C2541", // dashboard header color
     marginBottom: 20,
+    textAlign: "center",
   },
   filterContainer: {
     flexDirection: "row",
@@ -21,13 +22,13 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: "#222",
+    backgroundColor: "#E4E4E4", // light dashboard filter bg
   },
   filterButtonActive: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#3A506B", // dashboard primary
   },
   filterText: {
-    color: "#aaa",
+    color: "#555",
     fontSize: 14,
   },
   filterTextActive: {
@@ -38,43 +39,45 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
   },
   progressText: {
-    color: "#fff",
+    color: "#1C2541",
     fontSize: 14,
     marginBottom: 5,
   },
   progressBar: {
     height: 10,
-    backgroundColor: "#333",
+    backgroundColor: "#DDD",
     borderRadius: 5,
   },
   progressFill: {
     height: 10,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#3A506B",
     borderRadius: 5,
   },
   card: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#1C1C1C",
-    borderRadius: 10,
+    backgroundColor: "#d6d6d65a", // dashboard card style
+    borderRadius: 12,
     padding: 16,
-    borderWidth: 1.5,
+    borderWidth: 0,
     marginBottom: 12,
+    elevation: 2,
   },
   cardContent: {
     flex: 1,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "700",
+    color: "#1C2541",
   },
   subject: {
-    color: "#bbb",
+    color: "#333333ff",
     marginTop: 4,
   },
   dueDate: {
-    color: "#888",
+    color: "#232323ff",
     fontSize: 13,
     marginTop: 2,
   },
@@ -82,14 +85,14 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4CAF50",
-    borderRadius: 10,
-    padding: 12,
+    backgroundColor: "#3A506B",
+    borderRadius: 12,
+    padding: 14,
     marginTop: 15,
   },
   addButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: "#FFFFFF",
+    fontWeight: "700",
     marginLeft: 8,
   },
   modalOverlay: {
@@ -100,23 +103,23 @@ export const styles = StyleSheet.create({
     padding: 20,
   },
   modalContainer: {
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#FFFFFF",
     borderRadius: 12,
     padding: 20,
     width: "100%",
   },
   modalHeader: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: "700",
+    color: "#1C2541",
     marginBottom: 15,
     textAlign: "center",
   },
   input: {
-    backgroundColor: "#2A2A2A",
-    color: "#fff",
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: "#F1F1F1",
+    color: "#1C2541",
+    padding: 12,
+    borderRadius: 10,
     marginBottom: 10,
   },
   modalButtons: {
@@ -126,28 +129,29 @@ export const styles = StyleSheet.create({
   cancelButton: {
     flex: 1,
     marginRight: 5,
-    backgroundColor: "#444",
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: "#DDDDDD",
+    padding: 12,
+    borderRadius: 10,
     alignItems: "center",
   },
   saveButton: {
     flex: 1,
     marginLeft: 5,
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: "#3A506B",
+    padding: 12,
+    borderRadius: 10,
     alignItems: "center",
   },
   cancelText: {
-    color: "#fff",
-  },
-  saveText: {
-    color: "#fff",
+    color: "#555",
     fontWeight: "600",
   },
+  saveText: {
+    color: "#FFFFFF",
+    fontWeight: "700",
+  },
   emptyText: {
-    color: "#999",
+    color: "#888",
     textAlign: "center",
     marginTop: 30,
     fontSize: 15,
