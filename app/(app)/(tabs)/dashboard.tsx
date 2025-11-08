@@ -1,14 +1,16 @@
+import { usePerformance } from "@/src/context/PerformanceContext";
+import { WellnessContext } from "@/src/context/WellnessContext";
 import { Ionicons } from "@expo/vector-icons";
-import { usePerformance } from "app/context/PerformanceContext"; // ✅ use merged assignments context
-import { WellnessContext } from "app/context/WellnessContext";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 import styles from "styles/dashboardstyles";
 
+
 const Dashboard = () => {
   const router = useRouter();
+  
   const { overview: wellnessOverview } = useContext(WellnessContext);
   const { assignments, workouts, gameStats } = usePerformance(); // assignments array
 

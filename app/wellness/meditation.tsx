@@ -1,5 +1,5 @@
 // app/(app)/(tabs)/wellness/meditation.tsx
-import { fetchMeditations } from "app/services/meditationAPI";
+import { fetchMeditations } from "@/src/services/meditationAPI";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,

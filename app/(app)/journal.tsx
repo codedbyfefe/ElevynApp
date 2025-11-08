@@ -1,14 +1,14 @@
-import { addJournalEntry, getJournalEntries } from "app/services/journalService";
+import { addJournalEntry, getJournalEntries } from "@/src/services/journalService";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function JournalScreen() {

@@ -1,4 +1,4 @@
-import { useWellness } from "app/context/WellnessContext";
+import { useWellness } from "@/src/context/WellnessContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";

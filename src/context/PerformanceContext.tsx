@@ -7,7 +7,7 @@ import { auth } from "../../firebase/firebaseConfig";
 export type GameStat = { id: string; points: number; rebounds: number; assists: number };
 export type Workout = { id: string; name: string; duration: number; load: number };
 
-// ✅ Updated Assignment type
+// Updated Assignment type
 export type Assignment = {
   id: string;
   title: string;
@@ -60,7 +60,8 @@ export const PerformanceProvider = ({ children }: { children: ReactNode }) => {
       if (data) {
         setGameStats(data.gameStats || []);
         setWorkouts(data.workouts || []);
-        // ✅ Migrate old assignments that lack `subject` or `dueDate`
+        
+        //Migrate old assignments that lack `subject` or `dueDate`
         const migratedAssignments = (data.assignments || []).map((a: any) => ({
           id: a.id ?? generateId(),
           title: a.title ?? "Untitled",

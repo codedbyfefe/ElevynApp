@@ -15,8 +15,8 @@ import { auth, db } from "../../firebase/firebaseConfig";
 import styles from "../../styles/sidenavstyles";
 
 // ✅ Import both context providers
-import { PerformanceProvider } from "app/context/PerformanceContext";
-import { WellnessProvider } from "app/context/WellnessContext";
+import { PerformanceProvider } from "@/src/context/PerformanceContext";
+import { WellnessProvider } from "@/src/context/WellnessContext";
 
 function CustomDrawerContent(props: any) {
   const router = useRouter();

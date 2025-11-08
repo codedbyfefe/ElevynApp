@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "firebase/firebaseConfig"; // adjust path if needed
+import { auth, db } from "firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -18,13 +18,13 @@ import styles from "styles/settingsstyles";
 const SettingsScreen = () => {
   const router = useRouter();
 
-  // 🔹 User data from Firestore
+  //  User data from Firestore
   const [userData, setUserData] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
   // Other state
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [reminders, setReminders] = useState(false);
 

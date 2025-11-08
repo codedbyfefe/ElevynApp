@@ -1,4 +1,4 @@
-import { SPOONACULAR_API_KEY } from "app/config/env";
+import { SPOONACULAR_API_KEY } from "@/src/config/env";
 
 export interface SpoonRecipe {
   title: string;

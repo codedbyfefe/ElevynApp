@@ -1,4 +1,4 @@
-import { fetchMealSuggestions } from "app/services/spoonacularService";
+import { fetchMealSuggestions } from "@/src/services/spoonacularService";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
