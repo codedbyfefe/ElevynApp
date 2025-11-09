@@ -8,13 +8,13 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
-  header: {
-    fontSize: 26,
-    fontWeight: "700",
-    marginBottom: 20,
-    color: "#0B132B",
-    textAlign: "center",
-  },
+ header: {
+  fontSize: 24,
+  fontWeight: "bold",
+  marginBottom: 20,
+  color: "#111315", // default
+},
+
   profileCard: {
     flexDirection: "row",
     alignItems: "center",

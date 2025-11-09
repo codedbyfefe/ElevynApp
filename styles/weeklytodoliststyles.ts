@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkboxDone: {
-    backgroundColor: "#4F46E5",
-    borderColor: "#4F46E5",
+    backgroundColor: "#0E6BA8",
+    borderColor: "#0E6BA8",
   },
   taskText: {
     color: "#0F172A",

@@ -94,7 +94,7 @@ const WellnessLog = () => {
         </View>
 
         {/* Resources Section */}
-        <Text style={styles.sectionTitle}>📚 Wellness Resources</Text>
+        <Text style={styles.sectionTitle}>Wellness Resources</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -114,7 +114,7 @@ const WellnessLog = () => {
             style={styles.resourceTile}
             onPress={() => router.push("/wellness/nutrition")}
           >
-            <Text style={styles.resourceTitle}>🥑 Nutrition</Text>
+            <Text style={styles.resourceTitle}>🥦 Nutrition</Text>
             <Text style={styles.resourceText}>
               Fuel your body for peak performance.
             </Text>

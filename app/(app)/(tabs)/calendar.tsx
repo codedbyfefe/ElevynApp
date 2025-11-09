@@ -99,7 +99,7 @@ export default function CalendarScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>📅 Training & Academic Planner</Text>
+      <Text style={styles.header}>🗓️ Planner</Text>
 
       {/* Calendar */}
       <Calendar
@@ -115,10 +115,10 @@ export default function CalendarScreen() {
           },
         }}
         theme={{
-          backgroundColor: "#111315",
-          calendarBackground: "#111315",
+          backgroundColor: "#333d47ff",
+          calendarBackground: "#ffffffff",
           textSectionTitleColor: "#A7A9AB",
-          dayTextColor: "#FFFFFF",
+          dayTextColor: "#000000ff",
           monthTextColor: "#A6E1FA",
           selectedDayBackgroundColor: "#1D2D44",
           arrowColor: "#A6E1FA",

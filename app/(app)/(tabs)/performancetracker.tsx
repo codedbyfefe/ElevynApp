@@ -2,14 +2,17 @@ import { useState } from "react";
 import {
   Dimensions,
   ScrollView,
+  StyleProp,
   Text,
   TextInput,
+  TextStyle,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from "react-native";
 import { usePerformance } from "src/context/PerformanceContext";
 import styles from "styles/performancetrackerstyles";
-import { VictoryAxis, VictoryBar, VictoryChart } from "victory-native";
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryLabel } from "victory-native";
 
 const { width } = Dimensions.get("window");
 
@@ -44,12 +47,14 @@ export default function PerformanceTracker() {
 
   const totalLoad = workouts.reduce((sum, w) => sum + w.load, 0);
 
+  // Ensure container style is typed correctly
+  const containerStyle: StyleProp<ViewStyle> = styles.container;
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#111315" }}>
-      <View style={styles.container}>
-
+      <View style={containerStyle}>
         {/* HEADER */}
-        <Text style={styles.header}>🏀 Performance Tracker</Text>
+        <Text style={styles.header}>🏆 Performance Tracker</Text>
 
         {/* GAME STATS */}
         <View style={styles.sectionBox}>
@@ -58,13 +63,24 @@ export default function PerformanceTracker() {
           {gameStats.length > 0 ? (
             <VictoryChart width={width * 0.9} height={250} domainPadding={20}>
               <VictoryAxis
-                tickFormat={(x) => `G${x}`}
-                style={{ tickLabels: { fill: "#fff" } }}
+                tickValues={gameStats.map((_, i) => i + 1)} // G1, G2, G3
+                tickFormat={(x) => `G${x}`} // Only show G1, G2, G3
+                style={{ tickLabels: { fill: "#1C2541", fontSize: 12 } }}
               />
-              <VictoryAxis dependentAxis style={{ tickLabels: { fill: "#fff" } }} />
+              <VictoryAxis
+                dependentAxis
+                style={{ tickLabels: { fill: "#1C2541", fontSize: 12 } }}
+              />
               <VictoryBar
                 data={gameStats.map((g, i) => ({ x: i + 1, y: g.points }))}
                 style={{ data: { fill: "#0066ff" } }}
+                labels={({ datum }) => datum.y}
+                labelComponent={
+                  <VictoryLabel
+                    dy={-10}
+                    style={{ fill: "#1C2541", fontSize: 12, fontWeight: "600" }}
+                  />
+                }
               />
             </VictoryChart>
           ) : (
@@ -82,26 +98,26 @@ export default function PerformanceTracker() {
 
         {/* ADD GAME */}
         <View style={styles.sectionBox}>
-          <Text style={styles.sectionTitle}>➕ Add Game</Text>
-          <View style={styles.inputRow}>
+          <Text style={styles.sectionTitle}> Add Game</Text>
+          <View style={styles.inputRow as Text}>
             <TextInput
               placeholder="Points"
               keyboardType="numeric"
-              style={styles.inputSmall}
+              style={styles.inputSmall as TextStyle}
               value={newGamePoints}
               onChangeText={setNewGamePoints}
             />
             <TextInput
               placeholder="Rebounds"
               keyboardType="numeric"
-              style={styles.inputSmall}
+              style={styles.inputSmall as TextStyle}
               value={newGameRebounds}
               onChangeText={setNewGameRebounds}
             />
             <TextInput
               placeholder="Assists"
               keyboardType="numeric"
-              style={styles.inputSmall}
+              style={styles.inputSmall as TextStyle}
               value={newGameAssists}
               onChangeText={setNewGameAssists}
             />

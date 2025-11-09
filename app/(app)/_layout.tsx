@@ -101,7 +101,7 @@ function CustomDrawerContent({ state }: any) {
                 backgroundColor: isActive
                   ? darkMode
                     ? "#1C2541"
-                    : "#0834c7"
+                    : "#0E6BA8"
                   : "transparent",
               }}
               icon={({ size }) => (

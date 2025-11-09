@@ -23,7 +23,7 @@ const WeeklyToDo = () => {
   const [tasks, setTasks] = useState<{
     [key: string]: { id: number; text: string; done: boolean }[];
   }>({
-    Monday: [{ id: 1, text: "📚 Assignment: Data Structures", done: false }],
+    Monday: [{ id: 1, text: "Assignment: Data Structures", done: false }],
   });
 
   const [newTaskText, setNewTaskText] = useState("");

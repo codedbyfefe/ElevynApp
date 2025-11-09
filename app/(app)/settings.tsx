@@ -1,5 +1,4 @@
-// app/settings.tsx
-import { useSettings } from "@/src/context/UserSettingsContext"; // ✅ Added import
+import { useSettings } from "@/src/context/UserSettingsContext";
 import { useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "firebase/firebaseConfig";
@@ -38,7 +37,7 @@ const SettingsScreen = () => {
 
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // ✅ Pull in context updater
+  // Pull in context updater
   const { setSelectedAvatar: setGlobalAvatar } = useSettings();
 
   const avatarOptions = [
@@ -77,7 +76,7 @@ const SettingsScreen = () => {
           setNotifications(data.notifications ?? true);
           setReminders(data.reminders ?? false);
 
-          // ✅ Sync context on initial load
+          // Sync context on initial load
           setGlobalAvatar(avatarUrl);
         }
       } catch (err) {
@@ -104,7 +103,7 @@ const SettingsScreen = () => {
         reminders,
       });
 
-      // ✅ Update the global avatar immediately
+      //  Update the global avatar immediately
       setGlobalAvatar(selectedAvatar);
 
       Alert.alert("Saved", "Your settings have been updated.");
@@ -115,6 +114,9 @@ const SettingsScreen = () => {
       setActiveModal(null);
     }
   };
+  //adding dynamic text colour fo light/dark mode
+const textColor = darkMode ? "#F5F5F5" : "#111315";
+const secondaryTextColor = darkMode ? "#D1D1D1" : "#555";
 
   return (
     <View
@@ -124,7 +126,7 @@ const SettingsScreen = () => {
       ]}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.header}>⚙️ Settings</Text>
+   <Text style={[styles.header, { color: textColor }]}>⚙️ Settings</Text>
 
         {/* Profile Card */}
         <View style={styles.profileCard}>
@@ -144,7 +146,10 @@ const SettingsScreen = () => {
 
         {/* Profile Settings */}
         <View style={styles.settingsSection}>
-          <Text style={styles.sectionTitle}>Profile Settings</Text>
+          <Text style={[styles.sectionTitle, { color: darkMode ? "#F5F5F5" : "#111315" }]}>
+  Profile Settings
+</Text>
+
 
           <TouchableOpacity
             style={styles.settingOption}
@@ -170,7 +175,10 @@ const SettingsScreen = () => {
 
         {/* Preferences */}
         <View style={styles.settingsSection}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
+          <Text style={[styles.sectionTitle, { color: darkMode ? "#F5F5F5" : "#111315" }]}>
+  Preferences
+</Text>
+
 
           <View style={styles.settingOptionRow}>
             <Text style={styles.optionText}>🌙 Dark Mode</Text>
@@ -178,7 +186,7 @@ const SettingsScreen = () => {
               value={darkMode}
               onValueChange={setDarkMode}
               trackColor={{ false: "#767577", true: "#A6E1FA" }}
-              thumbColor={darkMode ? "#0B132B" : "#f4f3f4"}
+              thumbColor={darkMode ? "#37415eff" : "#f4f3f4"}
             />
           </View>
 

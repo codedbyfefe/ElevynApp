@@ -17,8 +17,8 @@ export default function JournalScreen() {
   const [entry, setEntry] = useState("");
   const [entries, setEntries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedEntry, setSelectedEntry] = useState<any | null>(null); // 🆕 selected entry for modal
-  const [modalVisible, setModalVisible] = useState(false); // 🆕 modal visibility
+  const [selectedEntry, setSelectedEntry] = useState<any | null>(null); //  selected entry for modal
+  const [modalVisible, setModalVisible] = useState(false); //  modal visibility
 
   const auth = getAuth();
   const user = auth.currentUser;
