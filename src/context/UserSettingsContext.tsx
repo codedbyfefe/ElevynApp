@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type SettingsContextType = {
   darkMode: boolean;
@@ -20,6 +21,43 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [selectedAvatar, setSelectedAvatar] = useState(
     "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
   );
+
+  // Load saved preferences on mount
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const storedSettings = await AsyncStorage.getItem("userSettings");
+        if (storedSettings) {
+          const parsed = JSON.parse(storedSettings);
+          setDarkMode(parsed.darkMode ?? false);
+          setNotifications(parsed.notifications ?? true);
+          setReminders(parsed.reminders ?? false);
+          setSelectedAvatar(
+            parsed.selectedAvatar ??
+              "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
+          );
+        }
+      } catch (err) {
+        console.error("Error loading settings:", err);
+      }
+    };
+    loadSettings();
+  }, []);
+
+  // Save settings whenever they change
+  useEffect(() => {
+    const saveSettings = async () => {
+      try {
+        await AsyncStorage.setItem(
+          "userSettings",
+          JSON.stringify({ darkMode, notifications, reminders, selectedAvatar })
+        );
+      } catch (err) {
+        console.error("Error saving settings:", err);
+      }
+    };
+    saveSettings();
+  }, [darkMode, notifications, reminders, selectedAvatar]);
 
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 

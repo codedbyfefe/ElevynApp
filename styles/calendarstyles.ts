@@ -63,7 +63,7 @@ export default StyleSheet.create({
   },
   addButton: {
     marginTop: 12,
-    backgroundColor: "#6366F1", 
+    backgroundColor: "#0E6BA8", 
     padding: 12,
     borderRadius: 12,
     alignItems: "center",

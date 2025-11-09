@@ -49,10 +49,10 @@ const MOCK_RECIPES: Recipe[] = [
     sourceUrl: "https://cookieandkate.com/best-quinoa-salad-recipe/#tasty-recipes-25771-jump-target",
     nutrition: {
       nutrients: [
-        { name: "Calories", amount: 350 },
-        { name: "Protein", amount: 12 },
-        { name: "Carbohydrates", amount: 40 },
-        { name: "Fat", amount: 14 },
+        { name: "Calories", amount: 205 },
+        { name: "Protein", amount: 6.1 },
+        { name: "Carbohydrates", amount: 25.9 },
+        { name: "Fat", amount: 9.4 },
       ],
     },
   },
@@ -65,10 +65,10 @@ const MOCK_RECIPES: Recipe[] = [
     sourceUrl: "https://feelgoodfoodie.net/recipe/avocado-toast-with-egg-3-ways/",
     nutrition: {
       nutrients: [
-        { name: "Calories", amount: 420 },
-        { name: "Protein", amount: 20 },
-        { name: "Carbohydrates", amount: 30 },
-        { name: "Fat", amount: 25 },
+        { name: "Calories", amount: 583 },
+        { name: "Protein", amount: 21 },
+        { name: "Carbohydrates", amount: 36 },
+        { name: "Fat", amount: 41 },
       ],
     },
   },
@@ -81,10 +81,10 @@ const MOCK_RECIPES: Recipe[] = [
     sourceUrl: "https://www.foodnetwork.com/recipes/tyler-florence/yogurt-berry-parfait-recipe-1915894",
     nutrition: {
       nutrients: [
-        { name: "Calories", amount: 310 },
-        { name: "Protein", amount: 15 },
-        { name: "Carbohydrates", amount: 45 },
-        { name: "Fat", amount: 8 },
+        { name: "Calories", amount: 313 },
+        { name: "Protein", amount: 14 },
+        { name: "Carbohydrates", amount: 38 },
+        { name: "Fat", amount: 12 },
       ],
     },
   },

@@ -68,12 +68,13 @@ export default function RegisterScreen() {
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.loginLink}
-        onPress={() => router.replace("/login")}
-      >
-        <Text style={styles.loginText}>Already have an account? Login</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 20 }}>
+  <Text style={styles.loginText}>Already have an account? </Text>
+  <TouchableOpacity onPress={() => router.replace("/login")}>
+    <Text style={styles.loginLink}>Login</Text>
+  </TouchableOpacity>
+</View>
+
     </View>
   );
 }

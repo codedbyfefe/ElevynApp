@@ -99,7 +99,7 @@ export default function PerformanceTracker() {
         {/* ADD GAME */}
         <View style={styles.sectionBox}>
           <Text style={styles.sectionTitle}> Add Game</Text>
-          <View style={styles.inputRow as Text}>
+          <View style={styles.inputRow}>
             <TextInput
               placeholder="Points"
               keyboardType="numeric"

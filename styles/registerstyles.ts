@@ -43,19 +43,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
   },
-  loginText: {
+loginText: {
   fontSize: 14,
-  color: "#475569", 
-  textAlign: "center",
-  marginTop: 10,
+  color: "#64748B",
 },
 loginLink: {
   fontSize: 14,
-  color: "#0E6BA8", 
-  textAlign: "center",
+  color: "#0E6BA8",
   fontWeight: "600",
-  marginTop: 4,
 },
+
+
 });
 
 export default styles;

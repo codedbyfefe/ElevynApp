@@ -24,10 +24,19 @@ const Dashboard = () => {
   const athleticProgress = athleticSessions / 7; // assuming 7 sessions/week baseline
 
   // Balance message
-  const balanceMessage =
-    athleticSessions >= academicDone
-      ? "⚠️ You’ve logged more hours on sport than study — consider rebalancing."
-      : "✅ Great balance between academics and athletics this week!";
+let balanceMessage = "";
+
+if (academicTotal === 0 && athleticSessions === 0) {
+  // No data logged yet
+  balanceMessage =
+    "🕒 You haven’t logged anything yet";
+} else if (athleticSessions >= academicDone) {
+  balanceMessage =
+    "⚠️ You’ve logged more hours on sport than study — consider rebalancing.";
+} else {
+  balanceMessage =
+    "✅ Great balance between academics and athletics this week!";
+}
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
@@ -131,7 +140,7 @@ const Dashboard = () => {
       {/* Balance Insight */}
       <View style={[styles.card, styles.balanceCard]}>
         <View style={styles.iconRow}>
-          <Ionicons name="scale-outline" size={22} color="#6366F1" />
+          <Ionicons name="scale-outline" size={22} color="#6390f1ff" />
           <Text style={styles.cardTitle}>Balance Insight</Text>
         </View>
         <Text style={styles.insight}>{balanceMessage}</Text>

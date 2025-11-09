@@ -119,9 +119,9 @@ export default function CalendarScreen() {
           calendarBackground: "#ffffffff",
           textSectionTitleColor: "#A7A9AB",
           dayTextColor: "#000000ff",
-          monthTextColor: "#A6E1FA",
+          monthTextColor: "#164d64ff",
           selectedDayBackgroundColor: "#1D2D44",
-          arrowColor: "#A6E1FA",
+          arrowColor: "#164d64ff",
         }}
       />
 

@@ -1,3 +1,4 @@
+import { Asset } from "expo-asset";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -18,28 +19,47 @@ export default function LandingScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current; // animate whole screen
-  const logoAnim = useRef(new Animated.Value(0)).current; // animate logo & texts
+  const fadeAnim = useRef(new Animated.Value(0)).current; // screen fade
+  const logoAnim = useRef(new Animated.Value(0)).current; // logo/text fade
+  const bgAnim = useRef(new Animated.Value(0)).current; // background fade
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
+    const loadAssets = async () => {
+      try {
+        await Asset.loadAsync([
+          require("../images/BG.png"),
+          require("../images/TransparentLogo.png"),
+        ]);
+      } catch (err) {
+        console.warn("Image preload failed:", err);
+      } finally {
+        setLoading(false);
 
-    // Fade in entire screen
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1200,
-      useNativeDriver: true,
-    }).start();
+        // Animate background fade-in
+        Animated.timing(bgAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }).start();
 
-    // Delay logo/text fade-in slightly for effect
-    Animated.timing(logoAnim, {
-      toValue: 1,
-      duration: 1200,
-      delay: 500,
-      useNativeDriver: true,
-    }).start();
+        // Animate screen fade
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: true,
+        }).start();
 
-    return () => clearTimeout(timer);
+        // Animate logo/text slightly after background
+        Animated.timing(logoAnim, {
+          toValue: 1,
+          duration: 1200,
+          delay: 500,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
+
+    loadAssets();
   }, []);
 
   if (loading) {
@@ -61,7 +81,7 @@ export default function LandingScreen() {
             color: "#1E293B",
           }}
         >
-          Loading Elevyn...
+          Loading...
         </Text>
       </View>
     );
@@ -69,65 +89,67 @@ export default function LandingScreen() {
 
   return (
     <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
-      {/* Background Image */}
-      <ImageBackground
-        source={require("../images/BG.png")}
-        style={{ flex: 1, justifyContent: "space-between", padding: 20 }}
-        resizeMode="cover"
-      >
-        {/* Top Section - Logo */}
-        <Animated.View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            opacity: logoAnim,
-          }}
+      {/* Background Image with smooth fade */}
+      <Animated.View style={{ flex: 1, opacity: bgAnim }}>
+        <ImageBackground
+          source={require("../images/BG.png")}
+          style={{ flex: 1, justifyContent: "space-between", padding: 20 }}
+          resizeMode="cover"
         >
-          <Image
-            source={require("../images/TransparentLogo.png")}
-            style={[styles.logo, { width: 200, height: 200}]}
-          />
-          <Text style={styles.title}>𝑾𝒊𝒏 𝒕𝒉𝒆 𝑫𝒂𝒚.📖🥇</Text>
-        </Animated.View>
-
-        {/* Bottom Section - Buttons */}
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={[
-              styles.primaryButton,
-              {
-                flex: 1,
-                marginRight: 8,
-                shadowColor: "#0E6BA8",
-                shadowOpacity: 0.4,
-                shadowRadius: 10,
-                elevation: 5,
-              },
-            ]}
-            onPress={() => router.push("/login")}
+          {/* Top Section - Logo */}
+          <Animated.View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              opacity: logoAnim,
+            }}
           >
-            <Text style={styles.primaryText}>Login</Text>
-          </TouchableOpacity>
+            <Image
+              source={require("../images/TransparentLogo.png")}
+              style={[styles.logo, { width: 200, height: 200 }]}
+            />
+            <Text style={styles.title}>𝑾𝒊𝒏 𝒕𝒉𝒆 𝑫𝒂𝒚.📖🥇</Text>
+          </Animated.View>
 
-          <TouchableOpacity
-            style={[
-              styles.secondaryButton,
-              {
-                flex: 1,
-                marginLeft: 8,
-                shadowColor: "#001C55",
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 4,
-              },
-            ]}
-            onPress={() => router.push("/register")}
-          >
-            <Text style={styles.secondaryText}>Register</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
+          {/* Bottom Section - Buttons */}
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={[
+                styles.primaryButton,
+                {
+                  flex: 1,
+                  marginRight: 8,
+                  shadowColor: "#0E6BA8",
+                  shadowOpacity: 0.4,
+                  shadowRadius: 10,
+                  elevation: 5,
+                },
+              ]}
+              onPress={() => router.push("/login")}
+            >
+              <Text style={styles.primaryText}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.secondaryButton,
+                {
+                  flex: 1,
+                  marginLeft: 8,
+                  shadowColor: "#001C55",
+                  shadowOpacity: 0.3,
+                  shadowRadius: 8,
+                  elevation: 4,
+                },
+              ]}
+              onPress={() => router.push("/register")}
+            >
+              <Text style={styles.secondaryText}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </Animated.View>
     </Animated.View>
   );
 }
