@@ -3,14 +3,14 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC", // dashboard background
+    backgroundColor: "#F8FAFC", 
     padding: 20,
     justifyContent: "center",
   },
   header: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#1E293B", // dashboard header color
+    color: "#1E293B", 
     textAlign: "center",
     marginBottom: 30,
   },
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   button: {
-    backgroundColor: "#4F46E5", // dashboard accent
+    backgroundColor: "#0E6BA8", 
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: "center",
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
   },
   registerText: {
     fontSize: 14,
-    color: "#475569", // dashboard subtext color
+    color: "#475569", 
     textAlign: "center",
     marginTop: 10,
   },
   registerLink: {
     fontSize: 14,
-    color: "#4F46E5", // dashboard accent color
+    color: "#0E6BA8", 
     textAlign: "center",
     fontWeight: "600",
     marginTop: 4,

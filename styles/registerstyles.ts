@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   input: {
-    backgroundColor: "#F1F5F9", // dashboard input-like card color
-    color: "#0F172A", // text color like dashboard
+    backgroundColor: "#F1F5F9", 
+    color: "#0F172A", 
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
   },
   button: {
-    backgroundColor: "#4F46E5", // dashboard-style accent button (purple-ish)
+    backgroundColor: "#0E6BA8", 
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: "center",
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
   },
   loginText: {
   fontSize: 14,
-  color: "#475569", // match dashboard subtext
+  color: "#475569", 
   textAlign: "center",
   marginTop: 10,
 },
 loginLink: {
   fontSize: 14,
-  color: "#4F46E5", // dashboard accent color
+  color: "#0E6BA8", 
   textAlign: "center",
   fontWeight: "600",
   marginTop: 4,

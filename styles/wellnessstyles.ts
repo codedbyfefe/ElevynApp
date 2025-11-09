@@ -34,7 +34,7 @@ export default StyleSheet.create({
     color: "#0F172A",
   },
   saveButton: {
-    backgroundColor: "#6366F1", // same as add buttons elsewhere
+    backgroundColor: "#0E6BA8", 
     paddingVertical: 14,
     borderRadius: 12,
     marginTop: 10,
@@ -50,7 +50,7 @@ export default StyleSheet.create({
     fontWeight: "700",
     marginTop: 30,
     marginBottom: 15,
-    color: "#1E293B", // dashboard card title color
+    color: "#1E293B", 
   },
   resourceCard: {
     backgroundColor: "#FFFFFF", // card style

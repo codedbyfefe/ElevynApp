@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   header: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#1C2541", // dashboard header color
+    color: "#1C2541", 
     marginBottom: 20,
     textAlign: "center",
   },
@@ -22,10 +22,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: "#E4E4E4", // light dashboard filter bg
+    backgroundColor: "#E4E4E4", 
   },
   filterButtonActive: {
-    backgroundColor: "#3A506B", // dashboard primary
+    backgroundColor: "#3A506B", 
   },
   filterText: {
     color: "#555",
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#d6d6d65a", // dashboard card style
+    backgroundColor: "#d6d6d65a", 
     borderRadius: 12,
     padding: 16,
     borderWidth: 0,
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#3A506B",
+    backgroundColor: "#0E6BA8",
     borderRadius: 12,
     padding: 14,
     marginTop: 15,

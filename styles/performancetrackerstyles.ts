@@ -12,7 +12,7 @@ export default StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#1C2541", // dashboard header color
+    color: "#1C2541", 
     marginBottom: 20,
     textAlign: "center",
   },
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   sectionBox: {
-    backgroundColor: "#FFFFFF", // dashboard card style
+    backgroundColor: "#FFFFFF", 
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,
@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
   summaryText: {
     fontSize: 14,
-    color: "#5C5C5C", // dashboard card text
+    color: "#5C5C5C", 
     marginBottom: 5,
   },
   inputRow: {
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   button: {
-    backgroundColor: "#3A506B", // dashboard primary button color
+    backgroundColor: "#0E6BA8", 
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   buttonSmall: {
-    backgroundColor: "#3A506B",
+    backgroundColor: "#0E6BA8",
     paddingVertical: 10,
     borderRadius: 10,
     alignItems: "center",

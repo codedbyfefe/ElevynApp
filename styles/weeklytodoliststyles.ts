@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addButton: {
-    backgroundColor: "#4F46E5", // match dashboard primary color
+    backgroundColor: "#0E6BA8", 
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,

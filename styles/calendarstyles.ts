@@ -10,13 +10,13 @@ export default StyleSheet.create({
   header: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#1E293B", // dashboard header color
+    color: "#1E293B", 
     textAlign: "center",
     marginBottom: 20,
   },
   eventBox: {
     marginTop: 16,
-    backgroundColor: "#FFFFFF", // card style like dashboard
+    backgroundColor: "#FFFFFF", 
     padding: 14,
     borderRadius: 12,
     shadowColor: "#000",
@@ -63,7 +63,7 @@ export default StyleSheet.create({
   },
   addButton: {
     marginTop: 12,
-    backgroundColor: "#6366F1", // vibrant but not harsh
+    backgroundColor: "#6366F1", 
     padding: 12,
     borderRadius: 12,
     alignItems: "center",
@@ -110,7 +110,7 @@ export default StyleSheet.create({
   },
   addEventButton: {
     flex: 1,
-    backgroundColor: "#6366F1",
+    backgroundColor: "#0E6BA8",
     padding: 10,
     borderRadius: 8,
     marginRight: 5,
