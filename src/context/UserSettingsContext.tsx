@@ -1,0 +1,48 @@
+import { createContext, ReactNode, useContext, useState } from "react";
+
+type SettingsContextType = {
+  darkMode: boolean;
+  notifications: boolean;
+  reminders: boolean;
+  selectedAvatar: string;
+  toggleDarkMode: () => void;
+  setNotifications: (val: boolean) => void;
+  setReminders: (val: boolean) => void;
+  setSelectedAvatar: (val: string) => void;
+};
+
+const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+
+export const SettingsProvider = ({ children }: { children: ReactNode }) => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+  const [reminders, setReminders] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(
+    "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
+  );
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+
+  return (
+    <SettingsContext.Provider
+      value={{
+        darkMode,
+        notifications,
+        reminders,
+        selectedAvatar,
+        toggleDarkMode,
+        setNotifications,
+        setReminders,
+        setSelectedAvatar,
+      }}
+    >
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export const useSettings = () => {
+  const context = useContext(SettingsContext);
+  if (!context) throw new Error("useSettings must be used within SettingsProvider");
+  return context;
+};

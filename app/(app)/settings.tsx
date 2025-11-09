@@ -1,9 +1,11 @@
+// app/settings.tsx
 import { useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "firebase/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   Modal,
   ScrollView,
@@ -18,49 +20,93 @@ import styles from "styles/settingsstyles";
 const SettingsScreen = () => {
   const router = useRouter();
 
-  //  User data from Firestore
+  // Firestore & user
+  const [userId, setUserId] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // Other state
-  const [activeModal, setActiveModal] = useState<string | null>(null);
+  // Local settings state
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [reminders, setReminders] = useState(false);
+  const [sport, setSport] = useState("");
+  const [major, setMajor] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState(
+    "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
+  );
 
-  // Demo form state
-  const [sport, setSport] = useState("Basketball");
-  const [major, setMajor] = useState("Computer Science");
-  const [selectedAvatar, setSelectedAvatar] = useState("https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg");
+  const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // Avatar options
   const avatarOptions = [
-    "https://img.freepik.com/premium-vector/male-face-avatar-icon-set-flat-design-social-media-profiles_1281173-3806.jpg?w=360",
-    "https://via.placeholder.com/100/33FF57",
-    "https://via.placeholder.com/100/3357FF",
-    "https://via.placeholder.com/100/FFFF33",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQrQhN6c2aVPRU4DjrKeCBlhd9J4Lc86Clw&s",
+    "https://www.shareicon.net/download/2016/08/18/813790_people_512x512.png",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxCJMrh3mwIx2Qz8xvQMtyAs4zhmZyMoKdPJ1eyLG85clqo_UqwwMNw89rkqvp7DSNrmw&usqp=CAU",
+    "https://www.shareicon.net/data/512x512/2016/09/15/829457_user_512x512.png",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWOpnOlqXaISbhngZxPgnI8UfThhWaK4Rp-jCmQjDAsEg8tOGClk8pRjF_1-O73jtRy0c&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0WE568AbXqUEOexI8LtxVA1XJQmdEuENTYg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-eZ5VRV1Q3svfJSQszfhSEqFYh5RhG3dd2w&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-oxeuqaYZ_OZKb6hTfQQkWtewqDsaY-Xahw&s",
+    "https://www.shareicon.net/data/2016/07/26/802042_man_512x512.png",
+    
   ];
 
-  // 🔹 Load user data on mount
+  // Load user from Firestore
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if (userDoc.exists()) {
-            setUserData(userDoc.data());
-          }
-        } catch (error) {
-          console.error("Error fetching user:", error);
-        } finally {
-          setLoadingUser(false);
+      if (!user) return setLoadingUser(false);
+      setUserId(user.uid);
+
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setUserData(data);
+
+          // Populate local state
+          setSport(data.sport || "Basketball");
+          setMajor(data.major || "Computer Science");
+          setSelectedAvatar(
+            data.avatar ||
+              "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
+          );
+          setDarkMode(data.darkMode || false);
+          setNotifications(data.notifications ?? true);
+          setReminders(data.reminders ?? false);
         }
-      } else {
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      } finally {
         setLoadingUser(false);
       }
     });
     return unsubscribe;
   }, []);
+
+  // Save changes to Firestore
+  const handleSaveChanges = async () => {
+    if (!userId) return;
+
+    try {
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        avatar: selectedAvatar,
+        sport,
+        major,
+        darkMode,
+        notifications,
+        reminders,
+      });
+
+      Alert.alert("Saved", "Your settings have been updated.");
+    } catch (err) {
+      console.error("Error saving settings:", err);
+      Alert.alert("Error", "Could not save settings. Try again later.");
+    } finally {
+      setActiveModal(null);
+    }
+  };
 
   return (
     <View
@@ -83,8 +129,8 @@ const SettingsScreen = () => {
                 ? `${userData.name} ${userData.surname}`
                 : "Unknown User"}
             </Text>
-            <Text style={styles.profileDetails}>🏀 Sport: {sport}</Text>
-            <Text style={styles.profileDetails}>🎓 Major: {major}</Text>
+            <Text style={styles.profileDetails}>🏆 Sport: {sport}</Text>
+            <Text style={styles.profileDetails}>🎓 Major(s): {major}</Text>
           </View>
         </View>
 
@@ -103,7 +149,7 @@ const SettingsScreen = () => {
             style={styles.settingOption}
             onPress={() => setActiveModal("sport")}
           >
-            <Text style={styles.optionText}>🏀 Update Sport</Text>
+            <Text style={styles.optionText}>🏆 Update Sport</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -145,20 +191,14 @@ const SettingsScreen = () => {
       </ScrollView>
 
       {/* Modal */}
-      <Modal transparent visible={activeModal !== null} animationType="slide">
+      <Modal transparent visible={!!activeModal} animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
             {/* Avatar Selection */}
             {activeModal === "avatar" && (
               <>
                 <Text style={styles.modalTitle}>Select an Avatar</Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                  }}
-                >
+                <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
                   {avatarOptions.map((uri, idx) => (
                     <TouchableOpacity
                       key={idx}
@@ -181,7 +221,6 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Sport Update */}
             {activeModal === "sport" && (
               <>
                 <Text style={styles.modalTitle}>Update Sport</Text>
@@ -195,7 +234,6 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Major Update */}
             {activeModal === "major" && (
               <>
                 <Text style={styles.modalTitle}>Change Major</Text>
@@ -209,7 +247,6 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Notifications */}
             {activeModal === "notifications" && (
               <>
                 <Text style={styles.modalTitle}>Notification Preferences</Text>
@@ -223,7 +260,6 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Reminders */}
             {activeModal === "reminders" && (
               <>
                 <Text style={styles.modalTitle}>Reminders</Text>
@@ -234,12 +270,9 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Close Button */}
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setActiveModal(null)}
-            >
-              <Text style={styles.modalButtonText}>Save & Close</Text>
+            {/* Save & Close */}
+            <TouchableOpacity style={styles.modalButton} onPress={handleSaveChanges}>
+              <Text style={styles.modalButtonText}> Save</Text>
             </TouchableOpacity>
           </View>
         </View>

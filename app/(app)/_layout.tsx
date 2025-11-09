@@ -1,8 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { useRouter } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { onAuthStateChanged } from "firebase/auth";
@@ -14,6 +11,7 @@ import { auth, db } from "../../firebase/firebaseConfig";
 
 // Context providers
 import { PerformanceProvider } from "@/src/context/PerformanceContext";
+import { SettingsProvider, useSettings } from "@/src/context/UserSettingsContext";
 import { WellnessProvider } from "@/src/context/WellnessContext";
 
 type IconNames = keyof typeof Ionicons.glyphMap;
@@ -28,6 +26,7 @@ const drawerItems: { label: string; route: string; icon: IconNames }[] = [
 function CustomDrawerContent({ state }: any) {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
+  const { darkMode, selectedAvatar } = useSettings();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -43,13 +42,14 @@ function CustomDrawerContent({ state }: any) {
     return unsubscribe;
   }, []);
 
-  // Active route
-  const activeRouteName =
-    state?.routeNames[state?.index] || "dashboard";
+  const activeRouteName = state?.routeNames[state?.index] || "dashboard";
 
   return (
     <DrawerContentScrollView
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: "#f5f5f5" }}
+      contentContainerStyle={{
+        flexGrow: 1,
+        backgroundColor: darkMode ? "#0B132B" : "#f5f5f5",
+      }}
     >
       {/* Profile */}
       <View
@@ -57,18 +57,21 @@ function CustomDrawerContent({ state }: any) {
           alignItems: "center",
           paddingVertical: 30,
           borderBottomWidth: 1,
-          borderBottomColor: "#ccc",
+          borderBottomColor: darkMode ? "#444" : "#ccc",
           marginBottom: 20,
         }}
       >
         <Image
-          source={{
-            uri: userData?.avatar ||
-              "https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg",
-          }}
+          source={{ uri: selectedAvatar }}
           style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }}
         />
-        <Text style={{ color: "#111", fontSize: 18, fontWeight: "600" }}>
+        <Text
+          style={{
+            color: darkMode ? "#fff" : "#111",
+            fontSize: 18,
+            fontWeight: "600",
+          }}
+        >
           {userData ? `${userData.name} ${userData.surname}` : "Loading..."}
         </Text>
       </View>
@@ -85,19 +88,33 @@ function CustomDrawerContent({ state }: any) {
               key={item.route}
               label={item.label}
               labelStyle={{
-                color: isActive ? "#fff" : "#111",
+                color: isActive
+                  ? "#fff"
+                  : darkMode
+                  ? "#ddd"
+                  : "#111",
                 fontWeight: isActive ? "700" : "500",
               }}
               style={{
                 marginVertical: 5,
                 borderRadius: 8,
-                backgroundColor: isActive ? "#0834c7" : "transparent",
+                backgroundColor: isActive
+                  ? darkMode
+                    ? "#1C2541"
+                    : "#0834c7"
+                  : "transparent",
               }}
               icon={({ size }) => (
                 <Ionicons
                   name={item.icon}
                   size={size}
-                  color={isActive ? "#fff" : "#555"}
+                  color={
+                    isActive
+                      ? "#fff"
+                      : darkMode
+                      ? "#ccc"
+                      : "#555"
+                  }
                 />
               )}
               onPress={() => router.push(item.route as any)}
@@ -110,15 +127,19 @@ function CustomDrawerContent({ state }: any) {
       <View
         style={{
           borderTopWidth: 1,
-          borderTopColor: "#ccc",
+          borderTopColor: darkMode ? "#333" : "#ccc",
           paddingVertical: 10,
         }}
       >
         <DrawerItem
           label="Logout"
-          labelStyle={{ color: "#111" }}
+          labelStyle={{ color: darkMode ? "#fff" : "#111" }}
           icon={({ size }) => (
-            <Ionicons name="log-out-outline" size={size} color="#111" />
+            <Ionicons
+              name="log-out-outline"
+              size={size}
+              color={darkMode ? "#fff" : "#111"}
+            />
           )}
           onPress={async () => {
             await logoutUser();
@@ -130,56 +151,70 @@ function CustomDrawerContent({ state }: any) {
   );
 }
 
-export default function PrivateLayout() {
-  const userAvatar =
-    "https://t3.ftcdn.net/jpg/15/34/03/58/360_F_1534035806_6gn57ou4V0dVZY6l30h6nEB5gWQRAP6v.jpg";
+function DrawerWithContext() {
+  const { darkMode, selectedAvatar } = useSettings();
 
+  return (
+    <Drawer
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: darkMode ? "#1C2541" : "#0E6BA8",
+        },
+        headerTintColor: "#fff",
+        drawerStyle: {
+          backgroundColor: darkMode ? "#0B132B" : "#f5f5f5",
+          width: 260,
+        },
+        drawerActiveTintColor: darkMode ? "#A6E1FA" : "#0E6BA8",
+        drawerInactiveTintColor: darkMode ? "#ddd" : "#555",
+        drawerLabelStyle: { fontSize: 16 },
+        sceneContainerStyle: {
+          backgroundColor: darkMode ? "#1C2541" : "#fff",
+        },
+        headerTitle: "",
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.toggleDrawer()}
+            style={{ marginLeft: 15 }}
+          >
+            <Image
+              source={{ uri: selectedAvatar }}
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 19,
+                borderWidth: 1,
+                borderColor: "#fff",
+              }}
+            />
+          </TouchableOpacity>
+        ),
+      })}
+    >
+      {drawerItems.map((item) => (
+        <Drawer.Screen
+          key={item.route}
+          name={item.route.replace("/", "") || "dashboard"}
+          options={{
+            drawerLabel: item.label,
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name={item.icon} size={size} color={color} />
+            ),
+          }}
+        />
+      ))}
+    </Drawer>
+  );
+}
+
+export default function PrivateLayout() {
   return (
     <PerformanceProvider>
       <WellnessProvider>
-        <Drawer
-          drawerContent={(props) => <CustomDrawerContent {...props} />}
-          screenOptions={({ navigation }) => ({
-            headerStyle: { backgroundColor: "#0E6BA8" },
-            headerTintColor: "#fff",
-            drawerStyle: { backgroundColor: "#f5f5f5", width: 260 },
-            drawerActiveTintColor: "#0E6BA8",
-            drawerInactiveTintColor: "#555",
-            drawerLabelStyle: { fontSize: 16 },
-            sceneContainerStyle: { backgroundColor: "#fff" },
-            headerTitle: "", // hide words in header
-            headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => navigation.toggleDrawer()}
-                style={{ marginLeft: 15 }}
-              >
-                <Image
-                  source={{ uri: userAvatar }}
-                  style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: 19,
-                    borderWidth: 1,
-                    borderColor: "#fff",
-                  }}
-                />
-              </TouchableOpacity>
-            ),
-          })}
-        >
-          {drawerItems.map((item) => (
-            <Drawer.Screen
-              key={item.route}
-              name={item.route.replace("/", "") || "dashboard"}
-              options={{
-                drawerLabel: item.label,
-                drawerIcon: ({ color, size }) => (
-                  <Ionicons name={item.icon} size={size} color={color} />
-                ),
-              }}
-            />
-          ))}
-        </Drawer>
+        <SettingsProvider>
+          <DrawerWithContext />
+        </SettingsProvider>
       </WellnessProvider>
     </PerformanceProvider>
   );
