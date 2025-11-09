@@ -1,4 +1,5 @@
 // app/settings.tsx
+import { useSettings } from "@/src/context/UserSettingsContext"; // ✅ Added import
 import { useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "firebase/firebaseConfig";
@@ -37,6 +38,9 @@ const SettingsScreen = () => {
 
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
+  // ✅ Pull in context updater
+  const { setSelectedAvatar: setGlobalAvatar } = useSettings();
+
   const avatarOptions = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQrQhN6c2aVPRU4DjrKeCBlhd9J4Lc86Clw&s",
     "https://www.shareicon.net/download/2016/08/18/813790_people_512x512.png",
@@ -47,7 +51,6 @@ const SettingsScreen = () => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-eZ5VRV1Q3svfJSQszfhSEqFYh5RhG3dd2w&s",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-oxeuqaYZ_OZKb6hTfQQkWtewqDsaY-Xahw&s",
     "https://www.shareicon.net/data/2016/07/26/802042_man_512x512.png",
-    
   ];
 
   // Load user from Firestore
@@ -64,16 +67,18 @@ const SettingsScreen = () => {
           const data = userDoc.data();
           setUserData(data);
 
-          // Populate local state
           setSport(data.sport || "Basketball");
           setMajor(data.major || "Computer Science");
-          setSelectedAvatar(
+          const avatarUrl =
             data.avatar ||
-              "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
-          );
+            "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg";
+          setSelectedAvatar(avatarUrl);
           setDarkMode(data.darkMode || false);
           setNotifications(data.notifications ?? true);
           setReminders(data.reminders ?? false);
+
+          // ✅ Sync context on initial load
+          setGlobalAvatar(avatarUrl);
         }
       } catch (err) {
         console.error("Error fetching user:", err);
@@ -98,6 +103,9 @@ const SettingsScreen = () => {
         notifications,
         reminders,
       });
+
+      // ✅ Update the global avatar immediately
+      setGlobalAvatar(selectedAvatar);
 
       Alert.alert("Saved", "Your settings have been updated.");
     } catch (err) {
@@ -194,11 +202,16 @@ const SettingsScreen = () => {
       <Modal transparent visible={!!activeModal} animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            {/* Avatar Selection */}
             {activeModal === "avatar" && (
               <>
                 <Text style={styles.modalTitle}>Select an Avatar</Text>
-                <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                  }}
+                >
                   {avatarOptions.map((uri, idx) => (
                     <TouchableOpacity
                       key={idx}
@@ -270,8 +283,10 @@ const SettingsScreen = () => {
               </>
             )}
 
-            {/* Save & Close */}
-            <TouchableOpacity style={styles.modalButton} onPress={handleSaveChanges}>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleSaveChanges}
+            >
               <Text style={styles.modalButtonText}> Save</Text>
             </TouchableOpacity>
           </View>

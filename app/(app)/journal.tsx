@@ -4,17 +4,21 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Modal,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import styles from "styles/journalstyles";
 
 export default function JournalScreen() {
   const [entry, setEntry] = useState("");
   const [entries, setEntries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedEntry, setSelectedEntry] = useState<any | null>(null); // 🆕 selected entry for modal
+  const [modalVisible, setModalVisible] = useState(false); // 🆕 modal visibility
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -22,9 +26,15 @@ export default function JournalScreen() {
   const loadEntries = async () => {
     if (!user) return;
     setLoading(true);
-    const data = await getJournalEntries(user.uid);
-    setEntries(data);
-    setLoading(false);
+    try {
+      const data = await getJournalEntries(user.uid);
+      setEntries(data);
+    } catch (error) {
+      console.error("Error loading journal entries:", error);
+      Alert.alert("Error", "Failed to load journal entries.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -33,74 +43,104 @@ export default function JournalScreen() {
 
   const handleSave = async () => {
     if (!entry.trim()) return;
-
     try {
       await addJournalEntry(user!.uid, entry);
       setEntry("");
       loadEntries();
-      Alert.alert("Saved ✅", "Your journal entry has been saved.");
-    } catch {
+      Alert.alert("Saved ", "Your journal entry has been saved.");
+    } catch (error) {
+      console.error("Error saving journal entry:", error);
       Alert.alert("Error", "Failed to save journal entry.");
     }
   };
 
+  const openEntry = (item: any) => {
+    setSelectedEntry(item);
+    setModalVisible(true);
+  };
+
   return (
-    <ScrollView style={{ padding: 20 }}>
-
-      <Text style={{ fontSize: 26, fontWeight: "700", marginBottom: 15 }}>
-        ✍️ Daily Journal
-      </Text>
-
-      <TextInput
-        placeholder="Write your thoughts..."
-        style={{
-          height: 140,
-          borderWidth: 1,
-          borderRadius: 10,
-          padding: 12,
-          marginBottom: 15,
-        }}
-        multiline
-        value={entry}
-        onChangeText={setEntry}
-      />
-
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#2b7a4b",
-          padding: 15,
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-        onPress={handleSave}
-      >
-        <Text style={{ color: "#fff", textAlign: "center", fontWeight: "600" }}>
-          Save Journal Entry
-        </Text>
-      </TouchableOpacity>
-
-      <Text style={{ fontSize: 20, fontWeight: "600", marginBottom: 10 }}>
-        📚 Previous Entries
-      </Text>
-
-      {loading && <ActivityIndicator size="large" />}
-
-      {entries.map((item) => (
-        <View
-          key={item.id}
-          style={{
-            borderWidth: 1,
-            borderRadius: 10,
-            padding: 12,
-            marginBottom: 10,
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>{item.content}</Text>
-          <Text style={{ opacity: 0.6, fontSize: 12, marginTop: 5 }}>
-            {new Date(item.timestamp.toDate()).toLocaleString()}
-          </Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>✍️ Daily Journal</Text>
+          <Text style={styles.subHeader}>Reflect. Write. Grow.</Text>
         </View>
-      ))}
-    </ScrollView>
+
+        {/* Input Area */}
+        <View style={styles.inputCard}>
+          <TextInput
+            placeholder="What’s on your mind today?"
+            placeholderTextColor="#9CA3AF"
+            style={styles.input}
+            multiline
+            value={entry}
+            onChangeText={setEntry}
+          />
+
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>Save Entry</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Entries List */}
+        <Text style={styles.sectionTitle}>Previous Entries</Text>
+
+        {loading && <ActivityIndicator size="large" color="#0E6BA8" style={{ marginTop: 20 }} />}
+
+        {!loading && entries.length === 0 && (
+          <Text style={styles.emptyState}>
+            No entries yet. Start journaling your thoughts ✨
+          </Text>
+        )}
+
+        {entries.map((item) => (
+          <TouchableOpacity key={item.id} onPress={() => openEntry(item)} activeOpacity={0.8}>
+            <View style={styles.entryCard}>
+              <Text
+                style={styles.entryText}
+                numberOfLines={3} // show preview only
+                ellipsizeMode="tail"
+              >
+                {item.content}
+              </Text>
+              <Text style={styles.timestamp}>
+                {item.timestamp
+                  ? new Date(item.timestamp.toDate()).toLocaleString()
+                  : "Pending..."}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Full Entry Modal */}
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            {selectedEntry && (
+              <>
+                <Text style={styles.modalDate}>
+                  {selectedEntry.timestamp
+                    ? new Date(selectedEntry.timestamp.toDate()).toLocaleString()
+                    : ""}
+                </Text>
+                <ScrollView>
+                  <Text style={styles.modalContent}>{selectedEntry.content}</Text>
+                </ScrollView>
+
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 }
