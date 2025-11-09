@@ -1,16 +1,20 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+# Node & Dependencies
 node_modules/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
 
-# Expo
+# Expo & Metro
 .expo/
+.expo-shared/
 dist/
 web-build/
+.metro-health-check*
 expo-env.d.ts
 
-# Native
-.kotlin/
+# Build / Native Folders
+android/
+ios/
 *.orig.*
 *.jks
 *.p8
@@ -18,37 +22,26 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
-# Metro
-.metro-health-check*
+# Environment & Local Configs
+# (keep firebaseConfig.ts!)
+.env
+.env.*
+.env*.local
+env.ts
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
+# macOS / OS junk
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
-
-# typescript
+# TypeScript
 *.tsbuildinfo
 
-app-example
+# Logs
+*.log
 
-# generated native folders
-/ios
-/android
-
-# Environment variables
-.env
-.env.*
-env.ts
-firebaseConfig.tsenv.ts
-
-# Ignore sensitive files
-env.ts
-firebaseConfig.ts
-
+# Example / Test / Temp Folders
+app-example/
+tmp/
+temp/
+__tests__/
+coverage/

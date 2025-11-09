@@ -1,3 +1,4 @@
+import { usePerformance } from "@/src/context/PerformanceContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
@@ -9,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { styles } from "styles/assignmentstyles";
-import { usePerformance } from "../../src/context/PerformanceContext";
 
 export default function Assignments() {
   const { assignments, addAssignment, toggleAssignmentCompletion } = usePerformance();

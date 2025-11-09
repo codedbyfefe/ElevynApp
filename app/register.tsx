@@ -1,8 +1,8 @@
+import { registerUser } from "@/app/firebase/authService";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "styles/registerstyles"; // import styles
-import { registerUser } from "../firebase/authService";
 
 export default function RegisterScreen() {
   const [name, setName] = useState("");

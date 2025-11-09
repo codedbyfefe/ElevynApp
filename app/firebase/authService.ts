@@ -1,4 +1,5 @@
-// firebase/authService.ts
+
+import { auth, db } from "@/app/firebase/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,7 +8,6 @@ import {
   User
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "./firebaseConfig";
 
 let authChangeListener: ((user: User | null) => void) | null = null;
 export const setAuthChangeListener = (callback: (user: User | null) => void) => {

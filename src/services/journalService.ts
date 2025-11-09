@@ -1,5 +1,5 @@
-// src/services/journalService.ts
-import { db } from "firebase/firebaseConfig";
+
+import { db } from "@/app/firebase/firebaseConfig";
 import {
   addDoc,
   collection,
@@ -18,7 +18,7 @@ export const addJournalEntry = async (userId: string, content: string) => {
     await addDoc(collection(db, "journalEntries"), {
       userId,
       content,
-      timestamp: serverTimestamp(), // ✅ Use server time for consistency
+      timestamp: serverTimestamp(), //  Use server time for consistency
     });
   } catch (error) {
     console.error("Error saving journal entry:", error);

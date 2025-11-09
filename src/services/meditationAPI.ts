@@ -1,10 +1,10 @@
-// src/services/meditationAPI.ts
+
 
 export const fetchMeditations = async () => {
   const API_KEY = process.env.EXPO_PUBLIC_YOUTUBE_API_KEY;
 
   if (!API_KEY) {
-    console.warn("⚠️ No YOUTUBE API KEY found — using fallback videos");
+    console.warn(" No YOUTUBE API KEY found — using fallback videos");
     return [];
   }
 
@@ -26,7 +26,7 @@ export const fetchMeditations = async () => {
     const data = await response.json();
 
     if (!data.items || !Array.isArray(data.items) || data.items.length === 0) {
-      console.warn("⚠️ No videos returned from API, using fallback.", data);
+      console.warn(" No videos returned from API, using fallback.", data);
       return [];
     }
 

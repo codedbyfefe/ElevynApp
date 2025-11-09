@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAGVe1xDCn_gaE_Rtidjpv5XOQhb-oz3Ts",
   authDomain: "elevyn-app-aeb19.firebaseapp.com",
   projectId: "elevyn-app-aeb19",
-  storageBucket: "elevyn-app-aeb19.firebasestorage.app",
+  storageBucket: "elevyn-app-aeb19.appspot.com",
   messagingSenderId: "858325490671",
   appId: "1:858325490671:web:4d4b28a320adfc8945b41a",
   measurementId: "G-5PSD1Y0R62"

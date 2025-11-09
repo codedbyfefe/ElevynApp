@@ -1,7 +1,7 @@
+import { auth } from "@/app/firebase/firebaseConfig";
+import { fetchUserData, saveUserData } from "@/app/firebase/firebaseService";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { fetchUserData, saveUserData } from "firebase/firebaseService";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { auth } from "../../firebase/firebaseConfig";
 
 type WellnessOverview = {
   avgSleep: number;

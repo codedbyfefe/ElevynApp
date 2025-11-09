@@ -1,6 +1,6 @@
+import { db } from "@/app/firebase/firebaseConfig";
+import { SPOONACULAR_API_KEY } from "@/src/config/env";
 import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
-import { SPOONACULAR_API_KEY } from "../src/config/env";
-import { db } from "./firebaseConfig";
 
 /******************************
  * SAVE NUTRITION ENTRY (FIREBASE)

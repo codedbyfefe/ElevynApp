@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.codedbyfefe.elevynapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +20,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.codedbyfefe.elevynapp"
     },
     "web": {
       "output": "static",
@@ -38,14 +40,27 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
     "extra": {
-      "YOUTUBE_API_KEY": "AIzaSyBo8s4hJnjKePBalmvDhDVmtBYqySz4lak"
+      "YOUTUBE_API_KEY": "AIzaSyBo8s4hJnjKePBalmvDhDVmtBYqySz4lak",
+      "router": {},
+      "eas": {
+        "projectId": "df5d2c71-7841-44d9-b2c5-58184a8b4103"
+      },
+      "firebase": {
+        "apiKey": "AIzaSyAGVe1xDCn_gaE_Rtidjpv5XOQhb-oz3Ts",
+        "authDomain": "elevyn-app-aeb19.firebaseapp.com",
+        "projectId": "elevyn-app-aeb19",
+        "storageBucket": "elevyn-app-aeb19.appspot.com",
+        "messagingSenderId": "858325490671",
+        "appId": "1:858325490671:web:4d4b28a320adfc8945b41a"
+      }
     }
   }
 }

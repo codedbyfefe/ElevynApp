@@ -1,7 +1,7 @@
+import { auth, db } from "@/app/firebase/firebaseConfig";
 import { useSettings } from "@/src/context/UserSettingsContext";
 import { useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "firebase/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {

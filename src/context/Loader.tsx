@@ -1,4 +1,4 @@
-// components/Loader.tsx
+
 import LottieView from "lottie-react-native";
 import { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";

@@ -1,13 +1,13 @@
+import { auth, db } from "@/app/firebase/firebaseConfig";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { logoutUser } from "app/firebase/authService";
 import { useRouter } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { logoutUser } from "../../firebase/authService";
-import { auth, db } from "../../firebase/firebaseConfig";
 
 // Context providers
 import { PerformanceProvider } from "@/src/context/PerformanceContext";

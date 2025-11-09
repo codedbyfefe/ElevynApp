@@ -1,7 +1,7 @@
+import { loginUser } from "@/app/firebase/authService";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { loginUser } from "../firebase/authService";
 import styles from "../styles/loginstyles";
 
 export default function LoginScreen() {

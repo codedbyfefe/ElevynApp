@@ -1,6 +1,5 @@
-// app/services/firebaseService.ts
+import { db } from "@/app/firebase/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
 
 // Helper: Merge arrays of objects by 'id', keeping the latest incoming data
 const mergeArraysById = <T extends { id: string }>(existing: T[] = [], incoming: T[] = []) => {
