@@ -3,73 +3,91 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC", // same as dashboard
+    backgroundColor: "#F9FAFB",
+    padding: 16,
   },
   scrollContent: {
-    padding: 16,
-    paddingBottom: 100,
+    paddingBottom: 40,
   },
   header: {
-    fontSize: 22,
-    fontWeight: "700",
-    marginBottom: 20,
-    color: "#1E293B", // same as dashboard header
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 24,
     textAlign: "center",
+    color: "#2E3A59",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  inputCard: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    marginRight: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
   },
   label: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginTop: 10,
-    marginBottom: 5,
-    color: "#475569", // matches metricLabel
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 8,
+    color: "#4B5563",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#E2E8F0", // subtle border like dashboard cards
-    borderRadius: 12,
+    backgroundColor: "#F3F4F6",
     padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
     fontSize: 16,
-    backgroundColor: "#FFFFFF", // card style
-    marginBottom: 15,
-    color: "#0F172A",
+    color: "#111827",
   },
   saveButton: {
-    backgroundColor: "#0E6BA8", 
+    backgroundColor: "#0E6BA8",
     paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 10,
+    borderRadius: 10,
     alignItems: "center",
+    marginTop: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
   saveButtonText: {
     color: "#FFFFFF",
-    fontWeight: "700",
+    fontWeight: "bold",
     fontSize: 16,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: 30,
-    marginBottom: 15,
-    color: "#1E293B", 
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: "#1F2937",
   },
-  resourceCard: {
-    backgroundColor: "#FFFFFF", // card style
+  resourceTile: {
+    backgroundColor: "#FFFFFF",
     padding: 16,
     borderRadius: 12,
-    marginBottom: 15,
+    marginRight: 12,
+    width: 200,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
     elevation: 2,
   },
   resourceTitle: {
     fontSize: 16,
     fontWeight: "600",
-    marginBottom: 5,
-    color: "#334155", // dashboard cardTitle color
+    marginBottom: 4,
+    color: "#111827",
   },
   resourceText: {
     fontSize: 14,
-    color: "#64748B", // dashboard subText color
+    color: "#4B5563",
   },
 });

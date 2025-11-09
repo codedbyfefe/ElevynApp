@@ -43,6 +43,9 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "YOUTUBE_API_KEY": "AIzaSyBo8s4hJnjKePBalmvDhDVmtBYqySz4lak"
     }
   }
 }

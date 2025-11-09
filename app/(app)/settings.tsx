@@ -35,7 +35,7 @@ const SettingsScreen = () => {
 
   // Avatar options
   const avatarOptions = [
-    "https://via.placeholder.com/100/FF5733",
+    "https://img.freepik.com/premium-vector/male-face-avatar-icon-set-flat-design-social-media-profiles_1281173-3806.jpg?w=360",
     "https://via.placeholder.com/100/33FF57",
     "https://via.placeholder.com/100/3357FF",
     "https://via.placeholder.com/100/FFFF33",
