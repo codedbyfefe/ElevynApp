@@ -1,50 +1,28 @@
-# Welcome to your Expo app 👋
+# Elevyn Student-Athlete App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# 📱 Elevyn App 
 
-## Get started
+**Created:** 2025  
+**Tools & Frameworks:** React Native, Figma, Expo, GitHub  
+**Role:** Developer & UX/UI Designer 
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+##  What Is This App?
 
-2. Start the app
+Elevyn is a mobile-first React Native app designed to support student-athletes in managing both their academic
+and athletic responsibilities within a single, streamlined platform.
 
-   ```bash
-   npx expo start
-   ```
+It combines essential features into one easy-to-use platform:
 
-In the output, you'll find options to open the app in a
+-💻**Authentication** – Users can log in and all their data will be stored dor their accounts
+- 📆 **Weekly Planner/Task manager** – Users can add or view events (such as practice days, track assignments, game days)
+- 🧘🏽‍♀️**Wellness Page** – Users can log their wellness metrics (ie. sleep, nutrition, mental health), access to recipies and mediations
+- 🏅 **Performance Tracker** – This helps users keep their athletic stats to keep track of their perfromance
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+The app bridges the gap between existing learning management systems (LMS) and sports tracking tools by offering an integrated, user-friendly experience that reflects the dual life of a student-athlete.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Screenshots
+![ Main Screenshot]
