@@ -1,5 +1,3 @@
-# Elevyn Student-Athlete App
-
 # 📱 Elevyn App 
 
 **Created:** 2025  
