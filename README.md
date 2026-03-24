@@ -25,4 +25,4 @@ The app bridges the gap between existing learning management systems (LMS) and s
 ---
 
 ## Screenshots
-![ Main Screenshot]
+![ Main Screenshot](images/Elevyn Poster.jpg)
